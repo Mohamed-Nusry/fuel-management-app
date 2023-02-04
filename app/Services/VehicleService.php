@@ -2,22 +2,22 @@
 
 namespace App\Services;
 
-use App\Models\User;
-use App\Repositories\UserRepository;
+use App\Models\Vehicle;
+use App\Repositories\VehicleRepository;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
-class UserService {
+class VehicleService {
 
     public function __construct(
-        private UserRepository $userRepository
+        private VehicleRepository $vehicleRepository
     ){}
 
     public function get(array $data)
     {
-        return DataTables::eloquent($this->userRepository->getFilterQuery($data))
+        return DataTables::eloquent($this->vehicleRepository->getFilterQuery($data))
             ->addColumn('action', function($query){
-                if(Auth::user()->user_type == 1 || Auth::user()->user_type == 2){
+                if(Auth::user()->user_type == 1){
                     $button = '<button type="button" data-id="'.$query->id.'" class="btn btn-primary btn-sm btn-edit"><i class="fas fa-pencil-alt"></i> Edit</button> ';
                     $button .= '<button type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash-alt"></i> Delete</button>';
                 }else{
@@ -27,28 +27,6 @@ class UserService {
                
                 return $button;
             })
-            // ->addColumn('department_id', function (User $department) {
-            //     return ($department->department != null) ? $department->department->name : "N/A";
-            // })
-            ->addColumn('user_type', function ($query) {
-                if($query->user_type != null){
-                    if($query->user_type ==  1){
-                        return "Head";
-                    }else{
-                        if($query->user_type ==  2){
-                            return "Manager";
-                        }else{
-                            if($query->user_type ==  3){
-                                return "Customer";
-                            }else{
-                                return "N/A";   
-                            }
-                        }
-                    }
-                }else{
-                    return "N/A";
-                }
-            })
             ->rawColumns(['action'])
             ->toJson();
     }
@@ -56,7 +34,7 @@ class UserService {
     public function create(array $data)
     {
         try {
-            return $this->userRepository->create($data);
+            return $this->vehicleRepository->create($data);
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -65,7 +43,7 @@ class UserService {
     public function edit($id)
     {
         try {
-            return $this->userRepository->find($id);
+            return $this->vehicleRepository->find($id);
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -74,7 +52,7 @@ class UserService {
     public function update(array $data, $id)
     {
         try {
-            return $this->userRepository->update($data, $id);
+            return $this->vehicleRepository->update($data, $id);
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -83,7 +61,7 @@ class UserService {
     public function delete($id)
     {
         try {
-            return $this->userRepository->delete($id);
+            return $this->vehicleRepository->delete($id);
         } catch (\Throwable $th) {
             throw $th;
         }

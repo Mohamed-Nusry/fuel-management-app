@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
                     'password' => Hash::make('fuelin@123'),
                     'user_type' => 1,
                     'fuel_station_id' => null,
-                    'created_at' => "2022-12-01 22:33:48",
+                    'created_at' => "2023-02-04 11:33:48",
                 ],
                 [
                     'first_name' => "Alex",
@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
                     'password' => Hash::make('alex@123'),
                     'user_type' => 2,
                     'fuel_station_id' => 1,
-                    'created_at' => "2022-12-01 22:33:48",
+                    'created_at' => "2023-02-04 11:33:48",
                 ],
                 [
                     'first_name' => "John",
@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
                     'password' => Hash::make('john@123'),
                     'user_type' => 3,
                     'fuel_station_id' => null,
-                    'created_at' => "2022-12-01 22:33:48",
+                    'created_at' => "2023-02-04 11:33:48",
                 ],
                
                

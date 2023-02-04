@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('last_name')->nullable();
             $table->integer('fuel_station_id')->nullable();
             $table->integer('user_type')->default(1); //1 = Head, 2 = Fuel Station Manager, 3 = Customer
+            $table->integer('district_id')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

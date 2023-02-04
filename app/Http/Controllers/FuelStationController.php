@@ -3,40 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
-use App\Services\UserService;
+use App\Http\Requests\FuelStationRequest;
+use App\Http\Requests\FuelStationUpdateRequest;
+use App\Models\District;
+use App\Services\FuelStationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class FuelStationController extends Controller
 {
     public function __construct(
-        private UserService $userService
+        private FuelStationService $fuelstationService
     ){}
 
     public function index(Request $request){
        
         if($request->ajax()) {
-            return $this->userService->get($request->all());
+            return $this->fuelstationService->get($request->all());
         }
 
         //Get Departments
-        $all_fuel_stations = [];
-        // $fuel_stations_count = Department::count();
-        // if($fuel_stations_count > 0){
-        //     $get_fuel_stations = Department::all();
-        //     $all_fuel_stations = $get_fuel_stations;
-        // }
+        $all_districts = [];
+        $districts_count = District::count();
+        if($districts_count > 0){
+            $get_districts = District::all();
+            $all_districts = $get_districts;
+        }
 
-        return view('pages/users/index', compact('all_fuel_stations'));
+        return view('pages/fuelstations/index', compact('all_districts'));
     }
     
     public function edit(Request $request){
         try {
             return $this->sendSuccess([
-                'message'   => 'User has been found',
-                'data'      => $this->userService->edit($request->id)
+                'message'   => 'Fuel Station has been found',
+                'data'      => $this->fuelstationService->edit($request->id)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);
@@ -44,26 +46,25 @@ class UserController extends Controller
 
     }
 
-    public function create(Request $request){
+    public function create(FuelStationRequest $request){
         try {
 
 
             $input = [];
             $input = $request->all();
-            $input['password'] = Hash::make($input['password']);
             $input['created_by'] = Auth::user()->id;
             $input['updated_by'] = Auth::user()->id;
 
             return $this->sendSuccess([
-                'message'   => 'User has been created',
-                'data'      => $this->userService->create($input)
+                'message'   => 'Fuel Station has been created',
+                'data'      => $this->fuelstationService->create($input)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);
         }
     }
 
-    public function update(UserRequest $request, $id){
+    public function update(FuelStationUpdateRequest $request, $id){
         try {
 
             $input = [];
@@ -71,8 +72,8 @@ class UserController extends Controller
             $input['updated_by'] = Auth::user()->id;
 
             return $this->sendSuccess([
-                'message'   => 'User has been updated',
-                'data'      => $this->userService->update($input, $id)
+                'message'   => 'Fuel Station has been updated',
+                'data'      => $this->fuelstationService->update($input, $id)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);
@@ -82,8 +83,8 @@ class UserController extends Controller
     public function delete(Request $request, $id){
         try {
             return $this->sendSuccess([
-                'message'   => 'User '.$request->name.' has been deleted',
-                'data'      => $this->userService->delete($id)
+                'message'   => 'Fuel Station '.$request->name.' has been deleted',
+                'data'      => $this->fuelstationService->delete($id)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);

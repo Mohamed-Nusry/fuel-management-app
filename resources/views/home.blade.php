@@ -30,7 +30,7 @@
 											<div class="card-body">
 												<div class="row">
 													<div class="col mt-0">
-														<h5 class="card-title">Departments</h5>
+														<h5 class="card-title">Fuel Stations</h5>
 													</div>
 
 													<div class="col-auto">
@@ -39,60 +39,11 @@
 														</div>
 													</div>
 												</div>
-												<h1 class="mt-1 mb-3">{{ $departments->count() }}</h1>
-											</div>
-										</div>
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Kan Ban Cards</h5>
-													</div>
-
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="layout"></i>
-														</div>
-													</div>
-												</div>
-												<h1 class="mt-1 mb-3">{{ $kanbans->count() }}</h1>
+												{{-- <h1 class="mt-1 mb-3">{{ $fuelStations->count() }}</h1> --}}
 											</div>
 										</div>
 									</div>
-									<div class="col-sm-6">
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Suppliers</h5>
-													</div>
-
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="users"></i>
-														</div>
-													</div>
-												</div>
-												<h1 class="mt-1 mb-3">{{ $suppliers->count() }}</h1>
-											</div>
-										</div>
-										<div class="card">
-											<div class="card-body">
-												<div class="row">
-													<div class="col mt-0">
-														<h5 class="card-title">Materials</h5>
-													</div>
-
-													<div class="col-auto">
-														<div class="stat text-primary">
-															<i class="align-middle" data-feather="shopping-cart"></i>
-														</div>
-													</div>
-												</div>
-												<h1 class="mt-1 mb-3">{{ $materials->count() }}</h1>
-											</div>
-										</div>
-									</div>
+								
 								</div>
 							</div>
 						</div>
@@ -180,17 +131,13 @@
 							<div class="card flex-fill">
 								<div class="card-header">
 
-									<h5 class="card-title mb-0">Latest work Assignments</h5>
+									<h5 class="card-title mb-0">Fuel Requests</h5>
 								</div>
-                                    <table id="table-assignedwork" class="table table-hover my-0">
+                                    <table id="table-fuel-requests" class="table table-hover my-0">
                                     <thead>
                                         <tr role="row">
                                             <th>No</th>
                                             <th>Name</th>
-                                            <th>Tasks</th>
-                                            <th>Department</th>
-                                            <th>Employee</th>
-                                            <th>Kanban</th>
                                             <th>Status</th>
                                             <th>Created On</th>
                                             <th>Created By</th>
@@ -231,10 +178,10 @@
 @push('page_scripts')
 @include('layouts.assets.js.datatables_js')
 
-	<script>
-        const departments = {{ \Illuminate\Support\Js::from($departments->pluck('name')) }};
-        const assignedWorks = {{ \Illuminate\Support\Js::from($departments->pluck('assigned_works_count')) }};
-        console.log(assignedWorks)
+	{{-- <script>
+        //const fuelStations = {{ \Illuminate\Support\Js::from($fuelStations->pluck('name')) }};
+       // const fuel-requestss = {{ \Illuminate\Support\Js::from($fuelStations->pluck('assigned_works_count')) }};
+        //console.log(fuel-requestss)
 
 		document.addEventListener("DOMContentLoaded", function() {
 			var ctx = document.getElementById("chartjs-dashboard-line").getContext("2d");
@@ -245,13 +192,13 @@
 			new Chart(document.getElementById("chartjs-dashboard-line"), {
 				type: "line",
 				data: {
-					labels: departments,
+					labels: fuelStations,
 					datasets: [{
 						label: "Works (#)",
 						fill: true,
 						backgroundColor: gradient,
 						borderColor: window.theme.primary,
-						data: assignedWorks
+						data: fuelStations
 					}]
 				},
 				options: {
@@ -291,7 +238,7 @@
 				}
 			});
 		});
-	</script>
+	</script> --}}
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			// Pie chart
@@ -444,15 +391,15 @@
 		});
 	</script>
 
-    <script>
-        tableWork();
+    {{-- <script>
+        //tableRequests();
         /**
-         * load table assignedwork
+         * load table fuel-requests
          */
-        function tableWork() {
+        function tableRequests() {
             generateDataTable({
-                selector: $('#table-assignedwork'),
-                url: '{{ route('assignedwork.index') }}',
+                selector: $('#table-fuel-requests'),
+                url: '{{ route('fuel-requests.index') }}',
                 columns: [{
                     data: null,
                     sortable: false,
@@ -466,22 +413,6 @@
                     data: 'name',
                     name: 'name',
                 }, 
-                {
-                    data: 'tasks',
-                    name: 'tasks',
-                },
-                {
-                    data: 'department_id',
-                    name: 'department_id',
-                },
-                {
-                    data: 'employee_id',
-                    name: 'employee_id',
-                },
-                {
-                    data: 'kanban_id',
-                    name: 'kanban_id',
-                },
                 {
                     data: 'status',
                     name: 'status',
@@ -505,7 +436,7 @@
                 }, ],
             });
         }
-    </script>
+    </script> --}}
 
 
 @endpush

@@ -5,19 +5,19 @@
     </a>
 </li>
 
-<li class="nav-item {{ request()->is('*user*') ||  request()->is('*department*') ? 'menu-opening menu-open' : '' }}">
+<li class="nav-item {{ request()->is('*user*') ? 'menu-opening menu-open' : '' }}">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-user"></i>
         <p>
-            Users & Departments
+            Users
             <i class="right fas fa-angle-left"></i>
         </p>
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('department.index') }}" class="nav-link {{ request()->is('department') ? 'sub-active' : '' }}">
+            <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('user') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
-                <p>Departments</p>
+                <p>Customers</p>
             </a>
         </li>
     </ul>
@@ -25,80 +25,105 @@
         <li class="nav-item">
             <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('user') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
-                <p>Users</p>
+                <p>Managers</p>
             </a>
         </li>
     </ul>
+  
 </li>
 
-<li class="nav-item {{ request()->is('*work*') ? 'menu-opening menu-open' : '' }}">
+
+<li class="nav-item {{ request()->is('*vehiclemanagement*') ? 'menu-opening menu-open' : '' }}">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-suitcase"></i>
         <p>
-            Work Monitoring
+            Vehicle Registrations
             <i class="right fas fa-angle-left"></i>
         </p>
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('kanban.index') }}" class="nav-link {{ request()->is('*work/kanban') ? 'sub-active' : '' }}">
+            <a href="{{ route('vehicle.index') }}" class="nav-link {{ request()->is('*vehiclemanagement/vehicle') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
-                <p>Kan Ban Card</p>
+                <p>All Vehicles</p>
             </a>
         </li>
     </ul>
+
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('assignedwork.index') }}" class="nav-link {{ request()->is('work/assignedwork') ? 'sub-active' : '' }}">
+            <a href="{{ route('vehicleregistration.index') }}" class="nav-link {{ request()->is('*vehiclemanagement/vehicleregistration') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
-                <p>Assigned Works</p>
+                <p>Vehicle Registrations</p>
             </a>
         </li>
     </ul>
+
 </li>
 
-<li class="nav-item {{ request()->is('*inventory*') ? 'menu-opening menu-open' : '' }}">
+
+<li class="nav-item {{ request()->is('*fuelstation*') ? 'menu-opening menu-open' : '' }}">
     <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-user"></i>
+        <i class="nav-icon fas fa-suitcase"></i>
         <p>
-            Inventory Automation
+            Fuel Stations
             <i class="right fas fa-angle-left"></i>
         </p>
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('supplier.index') }}" class="nav-link {{ request()->is('*inventory/supplier') ? 'sub-active' : '' }}">
+            <a href="{{ route('fuelstation.index') }}" class="nav-link {{ request()->is('*fuelstation') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
-                <p>Suppliers</p>
+                <p>All Fuel Stations</p>
             </a>
         </li>
     </ul>
-    <ul class="nav nav-treeview">
-        <li class="nav-item">
-            <a href="{{ route('material.index') }}" class="nav-link {{ request()->is('*inventory/material') ? 'sub-active' : '' }}">
-                &nbsp;&nbsp;&nbsp;
-                <p>Purchase Materials</p>
-            </a>
-        </li>
-    </ul>
-    <ul class="nav nav-treeview">
-        <li class="nav-item">
-            <a href="{{ route('product.index') }}" class="nav-link {{ request()->is('*inventory/product') ? 'sub-active' : '' }}">
-                &nbsp;&nbsp;&nbsp;
-                <p>Products</p>
-            </a>
-        </li>
-    </ul>
-    <ul class="nav nav-treeview">
-        <li class="nav-item">
-            <a href="{{ route('order.index') }}" class="nav-link {{ request()->is('*inventory/order') ? 'sub-active' : '' }}">
-                &nbsp;&nbsp;&nbsp;
-                <p>Orders</p>
-            </a>
-        </li>
-    </ul>
+
 </li>
 
+
+<li class="nav-item {{ request()->is('*schedule*') ? 'menu-opening menu-open' : '' }}">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-suitcase"></i>
+        <p>
+            Schedules
+            <i class="right fas fa-angle-left"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('schedule.index') }}" class="nav-link {{ request()->is('*schedule') ? 'sub-active' : '' }}">
+                &nbsp;&nbsp;&nbsp;
+                <p>Schedule Distributions</p>
+            </a>
+        </li>
+    </ul>
+
+</li>
+
+
+
+<li class="nav-item {{ request()->is('*fuelrequest*') ? 'menu-opening menu-open' : '' }}">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-suitcase"></i>
+        <p>
+            Fuel Requests
+            <i class="right fas fa-angle-left"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('fuelrequest.index') }}" class="nav-link {{ request()->is('*fuelrequest') ? 'sub-active' : '' }}">
+                &nbsp;&nbsp;&nbsp;
+                <p>All Fuel Requests</p>
+            </a>
+        </li>
+    </ul>
+
+</li>
+
+
+{{-- 
 <li class="nav-item {{ request()->is('*report*') ? 'menu-opening menu-open' : '' }}">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-file"></i>
@@ -123,4 +148,4 @@
             </a>
         </li>
     </ul>
-</li>
+</li> --}}
