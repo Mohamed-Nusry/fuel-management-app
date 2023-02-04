@@ -7,6 +7,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FuelStationController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\VehicleRegistrationController;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\FuelRequestController;
 
 /*
 |--------------------------------------------------------------------------

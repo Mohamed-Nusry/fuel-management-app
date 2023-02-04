@@ -62,6 +62,12 @@
                             <label for="last_name" class="col-form-label">Last Name *</label>
                             <input type="text" name="last_name" class="form-control" id="last_name" placeholder="Last Name">
                         </div>
+
+                        <div class="form-group">
+                            <label for="name" class="col-form-label">Username *</label>
+                            <input type="text" name="name" class="form-control" id="name" placeholder="Username">
+                        </div>
+
                         <div class="form-group">
                             <label for="email" class="col-form-label">Email *</label>
                             <input type="text" name="email" class="form-control" id="email" placeholder="Email">
@@ -168,6 +174,7 @@
                 $('#user-id').val(id);
                 $('.user-modal').modal('toggle');
                 $('#password').attr("disabled", false);
+                $('#name').attr("disabled", false);
             });
 
 
@@ -199,12 +206,14 @@
                         $('#user-id').attr("disabled", true);
                         $('#first_name').attr("disabled", true);
                         $('#last_name').attr("disabled", true);
+                        $('#name').attr("disabled", true);
                         $('#email').attr("disabled", true);
                     },
                     complete: function () {
                         $('#user-id').attr("disabled", false);
                         $('#first_name').attr("disabled", false);
                         $('#last_name').attr("disabled", false);
+                        $('#name').attr("disabled", true);
                         $('#email').attr("disabled", false);
                     },
                     success: function (res) {
@@ -213,6 +222,7 @@
                             $('#user-id').val(res.data.id);
                             $('#first_name').val(res.data.first_name);
                             $('#last_name').val(res.data.last_name);
+                            $('#name').val(res.data.name);
                             $('#email').val(res.data.email);
                            }
                         }
@@ -239,6 +249,7 @@
                     const formData = new FormData(this);
                     formData.append('_method', 'POST');
                     formData.append('_token', '{{ csrf_token() }}');
+                    formData.append('user_type', 3);
                     $.ajax({
                         url: '{{ route('user.create') }}',
                         data: formData,

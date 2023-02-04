@@ -3,33 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
-use App\Http\Requests\UserUpdateRequest;
+use App\Http\Requests\ScheduleRequest;
+use App\Http\Requests\ScheduleUpdateRequest;
 use App\Models\FuelStation;
-use App\Services\UserService;
+use App\Services\ScheduleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class ScheduleController extends Controller
 {
     public function __construct(
-        private UserService $userService
+        private ScheduleService $scheduleService
     ){}
 
-    public function customer(Request $request){
+    public function index(Request $request){
        
         if($request->ajax()) {
-            return $this->userService->get(3);
-        }
-
-        return view('pages/users/customers/index');
-    }
-    
-    public function manager(Request $request){
-       
-        if($request->ajax()) {
-            return $this->userService->get(2);
+            return $this->scheduleService->get($request->all());
         }
 
         //Get Fuel Stations
@@ -40,14 +31,14 @@ class UserController extends Controller
             $all_fuel_stations = $get_fuel_stations;
         }
 
-        return view('pages/users/managers/index', compact('all_fuel_stations'));
+        return view('pages/schedules/index', compact('all_fuel_stations'));
     }
     
     public function edit(Request $request){
         try {
             return $this->sendSuccess([
-                'message'   => 'User has been found',
-                'data'      => $this->userService->edit($request->id)
+                'message'   => 'Schedule has been found',
+                'data'      => $this->scheduleService->edit($request->id)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);
@@ -55,26 +46,25 @@ class UserController extends Controller
 
     }
 
-    public function create(UserRequest $request){
+    public function create(ScheduleRequest $request){
         try {
 
 
             $input = [];
             $input = $request->all();
-            $input['password'] = Hash::make($input['password']);
             $input['created_by'] = Auth::user()->id;
             $input['updated_by'] = Auth::user()->id;
 
             return $this->sendSuccess([
-                'message'   => 'User has been created',
-                'data'      => $this->userService->create($input)
+                'message'   => 'Schedule has been created',
+                'data'      => $this->scheduleService->create($input)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);
         }
     }
 
-    public function update(UserUpdateRequest $request, $id){
+    public function update(ScheduleUpdateRequest $request, $id){
         try {
 
             $input = [];
@@ -82,8 +72,8 @@ class UserController extends Controller
             $input['updated_by'] = Auth::user()->id;
 
             return $this->sendSuccess([
-                'message'   => 'User has been updated',
-                'data'      => $this->userService->update($input, $id)
+                'message'   => 'Schedule has been updated',
+                'data'      => $this->scheduleService->update($input, $id)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);
@@ -93,8 +83,8 @@ class UserController extends Controller
     public function delete(Request $request, $id){
         try {
             return $this->sendSuccess([
-                'message'   => 'User '.$request->name.' has been deleted',
-                'data'      => $this->userService->delete($id)
+                'message'   => 'Schedule '.$request->name.' has been deleted',
+                'data'      => $this->scheduleService->delete($id)
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);
