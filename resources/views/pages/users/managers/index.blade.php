@@ -9,20 +9,20 @@
         
         @if(Auth::user()->user_type != null)
             @if(Auth::user()->user_type == 1 || Auth::user()->user_type == 2)
-                <button class="btn btn-primary mt-2 btn-create" style="float:right">Add New User</button>
+                <button class="btn btn-primary mt-2 btn-create" style="float:right">Add New Manager</button>
             @else
                 <i class="fas fa-question-circle mt-3 btn-help" style="float:right;  cursor:pointer;"></i>
-                <button disabled class="btn btn-primary mt-2 btn-create mr-2" style="float:right">Add New User</button>
+                <button disabled class="btn btn-primary mt-2 btn-create mr-2" style="float:right">Add New Manager</button>
                 
             @endif
         @endif
-        <h2 style="padding:10px">User Management</h2>
+        <h2 style="padding:10px">Manager Management</h2>
        
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Users List</h3>
+                        <h3 class="card-title">Managers List</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -35,8 +35,7 @@
                                             <th>First Name</th>
                                             <th>Last Name</th>
                                             <th>Email</th>
-                                            {{-- <th>Fuel Station</th> --}}
-                                            <th>User Type</th>
+                                            <th>Fuel Station</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -55,7 +54,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-pencil-alt"></i> Create User</h5>
+                    <h5 class="modal-title"><i class="fas fa-pencil-alt"></i> Create Manager</h5>
                     <button type="button" onclick="$('.user-modal').modal('toggle');" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -79,7 +78,7 @@
                             <label for="email" class="col-form-label">Email *</label>
                             <input type="text" name="email" class="form-control" id="email" placeholder="Email">
                         </div>
-                        {{-- <div class="form-group">
+                        <div class="form-group">
                             <label for="fuel_station_id" class="col-form-label">Fuel Station</label>
                             <select id="fuel_station_id" name="fuel_station_id" class="form-control">
                                 @if (count($all_fuel_stations) > 0)
@@ -88,17 +87,9 @@
                                     @endforeach
 
                                 @else
-                                    <option selected>No Departments</option>
+                                    <option selected>No Fuel Stations</option>
                                 @endif
                                 
-                            </select>
-                        </div> --}}
-                        <div class="form-group">
-                            <label for="user_type" class="col-form-label">User Type</label>
-                            <select id="user_type" name="user_type" class="form-control">
-                                <option value="1">Head</option>
-                                <option value="2">Manager</option>
-                                <option value="3">Customer</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -149,14 +140,14 @@
     @include('layouts.assets.js.datatables_js')
 
     <script>
-        tableUser();
+        tableManager();
         /**
          * load table user
          */
-        function tableUser() {
+        function tableManager() {
             generateDataTable({
                 selector: $('#table-user'),
-                url: '{{ route('user.index') }}',
+                url: '{{ route('manager.index') }}',
                 columns: [{
                     data: null,
                     sortable: false,
@@ -178,13 +169,9 @@
                     data: 'email',
                     name: 'email',
                 }, 
-                // {
-                //     data: 'fuel_station_id',
-                //     name: 'fuel_station_id',
-                // }, 
                 {
-                    data: 'user_type',
-                    name: 'user_type',
+                    data: 'fuel_station_id',
+                    name: 'fuel_station_id',
                 }, 
                 {
                     data: 'action',
@@ -207,12 +194,12 @@
                 event.preventDefault();
                 document.getElementById("user-form").reset();
                 const id = null;
-                $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Create User`);
+                $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Create Manager`);
                 $('#user-id').val(id);
                 $('.user-modal').modal('toggle');
                 $('#password').attr("disabled", false);
                 $('#user_type').attr("disabled", false);
-                // $('#fuel_station_id').attr("disabled", false);
+                $('#fuel_station_id').attr("disabled", false);
             });
 
 
@@ -226,7 +213,7 @@
                 event.preventDefault();
                 document.getElementById("user-form").reset();
                 const id = $(this).data('id');
-                $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Edit User`);
+                $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Edit Manager`);
                 $('#user-id').val(id);
                 const url = "user/edit/"+id;
 
@@ -248,7 +235,7 @@
                         $('#name').attr("disabled", true);
                         $('#password').attr("disabled", true);
                         $('#user_type').attr("disabled", true);
-                        // $('#fuel_station_id').attr("disabled", true);
+                        $('#fuel_station_id').attr("disabled", true);
                     },
                     complete: function () {
                         $('#user-id').attr("disabled", false);
@@ -258,7 +245,7 @@
                         $('#name').attr("disabled", false);
                         $('#password').attr("disabled", true);
                         $('#user_type').attr("disabled", true);
-                        // $('#fuel_station_id').attr("disabled", true);
+                        $('#fuel_station_id').attr("disabled", true);
                     },
                     success: function (res) {
                         if(res.status == 200) {  
@@ -269,7 +256,7 @@
                             $('#email').val(res.data.email);
                             $('#name').val(res.data.name);
                             $('#user_type').val('');
-                            // $('#fuel_station_id').val('');
+                            $('#fuel_station_id').val('');
                             $('#password').val('********');
                            }
                         }
@@ -314,7 +301,7 @@
                         success: function (data) {
                             if(data.status == 200) {  
                                 swalSuccess('', data.nessage);
-                                tableUser();
+                                tableManager();
                                 $('.user-modal').modal('toggle');
                             }
                         }
@@ -344,7 +331,7 @@
                         success: function (data) {
                             if(data.status == 200) {
                                 swalSuccess('', data.nessage);
-                                tableUser();
+                                tableManager();
                                 $('.user-modal').modal('toggle');
                             }
                         }
@@ -382,7 +369,7 @@
                             processData: false,
                             contentType: false,
                             success: function(result) {
-                                tableUser();
+                                tableManager();
                                 swalSuccess('',result.message);
                             }
                         })

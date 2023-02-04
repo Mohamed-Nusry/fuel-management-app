@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FuelStationController;
 use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\VehicleRegistrationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,11 +26,18 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
 Route::prefix('user')->group(function () {
-    Route::get('/', [UserController::class, 'index'])->name('user.index');
     Route::post('create', [UserController::class, 'create'])->name('user.create');
     Route::post('edit', [UserController::class, 'edit'])->name('user.edit');
     Route::put('update/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('delete/{id}', [UserController::class, 'delete'])->name('user.delete');
+
+    Route::prefix('customer')->group(function () {
+        Route::get('/', [UserController::class, 'customer'])->name('customer.index');
+    });
+    Route::prefix('manager')->group(function () {
+        Route::get('/', [UserController::class, 'manager'])->name('manager.index');
+    });
+
 });
 
 Route::prefix('fuelstation')->group(function () {
@@ -49,11 +57,11 @@ Route::prefix('vehiclemanagement')->group(function () {
         Route::delete('delete/{id}', [VehicleController::class, 'delete'])->name('vehicle.delete');
     });
     Route::prefix('vehicleregistration')->group(function () {
-        Route::get('/', [FuelStationController::class, 'index'])->name('vehicleregistration.index');
-        Route::post('create', [FuelStationController::class, 'create'])->name('vehicleregistration.create');
-        Route::post('edit', [FuelStationController::class, 'edit'])->name('vehicleregistration.edit');
-        Route::put('update/{id}', [FuelStationController::class, 'update'])->name('vehicleregistration.update');
-        Route::delete('delete/{id}', [FuelStationController::class, 'delete'])->name('vehicleregistration.delete');
+        Route::get('/', [VehicleRegistrationController::class, 'index'])->name('vehicleregistration.index');
+        Route::post('create', [VehicleRegistrationController::class, 'create'])->name('vehicleregistration.create');
+        Route::post('edit', [VehicleRegistrationController::class, 'edit'])->name('vehicleregistration.edit');
+        Route::put('update/{id}', [VehicleRegistrationController::class, 'update'])->name('vehicleregistration.update');
+        Route::delete('delete/{id}', [VehicleRegistrationController::class, 'delete'])->name('vehicleregistration.delete');
     });
 });
 

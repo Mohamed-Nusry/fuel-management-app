@@ -15,13 +15,23 @@ class UserController extends Controller
         private UserService $userService
     ){}
 
-    public function index(Request $request){
+    public function customer(Request $request){
        
         if($request->ajax()) {
-            return $this->userService->get($request->all());
+            return $this->userService->get(3);
         }
 
-        //Get Departments
+        $all_fuel_stations = [];
+        return view('pages/users/customers/index', compact('all_fuel_stations'));
+    }
+    
+    public function manager(Request $request){
+       
+        if($request->ajax()) {
+            return $this->userService->get(2);
+        }
+
+        //Get Fuel Stations
         $all_fuel_stations = [];
         // $fuel_stations_count = Department::count();
         // if($fuel_stations_count > 0){
@@ -29,7 +39,7 @@ class UserController extends Controller
         //     $all_fuel_stations = $get_fuel_stations;
         // }
 
-        return view('pages/users/index', compact('all_fuel_stations'));
+        return view('pages/users/managers/index', compact('all_fuel_stations'));
     }
     
     public function edit(Request $request){

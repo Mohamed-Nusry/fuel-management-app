@@ -7,34 +7,27 @@
 @section('content')
     <div class="container-fluid">
         
-        {{-- @if(Auth::user()->user_type != null)
-            @if(Auth::user()->user_type == 1 || Auth::user()->user_type == 2)
-                <button class="btn btn-primary mt-2 btn-create" style="float:right">Add New Vehicle</button>
-            @else
-                <i class="fas fa-question-circle mt-3 btn-help" style="float:right;  cursor:pointer;"></i>
-                <button disabled class="btn btn-primary mt-2 btn-create mr-2" style="float:right">Add New Vehicle</button>
-                
-            @endif
-        @endif --}}
-        <h2 style="padding:10px">Vehicle Management</h2>
+      
+        <h2 style="padding:10px">Customer Management</h2>
        
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Vehicles List</h3>
+                        <h3 class="card-title">Customers List</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12">
-                                <table id="table-vehicle" class="table table-bordered">
+                                <table id="table-user" class="table table-bordered">
                                     <thead class="thead-dark">
                                         <tr role="row">
                                             <th>No</th>
-                                            <th>Code</th>
-                                            <th>Name</th>
-                                            <th>Standard Quota (Liters)</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Email</th>
+                                            <th>District</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -49,34 +42,33 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade vehicle-modal" tabindex="-1" role="dialog" aria-labelledby="vehicle-modal" aria-hidden="true">
+    <div class="modal fade user-modal" tabindex="-1" role="dialog" aria-labelledby="user-modal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-pencil-alt"></i> Create Vehicle</h5>
-                    <button type="button" onclick="$('.vehicle-modal').modal('toggle');" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title"><i class="fas fa-pencil-alt"></i> Create Customer</h5>
+                    <button type="button" onclick="$('.user-modal').modal('toggle');" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form name="vehicle-form" id="vehicle-form">
-                    <input id="vehicle-id" type="hidden">
+                <form name="user-form" id="user-form">
+                    <input id="user-id" type="hidden">
                     <div class="modal-body">
-
                         <div class="form-group">
-                            <label for="code" class="col-form-label">Code *</label>
-                            <input type="text" name="code" class="form-control" id="code" placeholder="Code">
+                            <label for="first_name" class="col-form-label">First Name *</label>
+                            <input type="text" name="first_name" class="form-control" id="first_name" placeholder="First Name">
                         </div>
                         <div class="form-group">
-                            <label for="name" class="col-form-label">Vehicle Name *</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Name">
+                            <label for="last_name" class="col-form-label">Last Name *</label>
+                            <input type="text" name="last_name" class="form-control" id="last_name" placeholder="Last Name">
                         </div>
                         <div class="form-group">
-                            <label for="standard_quota" class="col-form-label">Standard Quota *</label>
-                            <input type="text" name="standard_quota" class="form-control" id="standard_quota" placeholder="Standard Quota">
+                            <label for="email" class="col-form-label">Email *</label>
+                            <input type="text" name="email" class="form-control" id="email" placeholder="Email">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" onclick="$('.vehicle-modal').modal('toggle');" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" onclick="$('.user-modal').modal('toggle');" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <input type="submit" class="btn btn-primary btn-save" value="Save">
                     </div>
                 </form>
@@ -118,14 +110,14 @@
     @include('layouts.assets.js.datatables_js')
 
     <script>
-        tableVehicle();
+        tableCustomer();
         /**
-         * load table fuel station
+         * load table user
          */
-        function tableVehicle() {
+        function tableCustomer() {
             generateDataTable({
-                selector: $('#table-vehicle'),
-                url: '{{ route('vehicle.index') }}',
+                selector: $('#table-user'),
+                url: '{{ route('customer.index') }}',
                 columns: [{
                     data: null,
                     sortable: false,
@@ -134,18 +126,22 @@
                     render: function(data, type, row, meta) {
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
-                },  
-                {
-                    data: 'code',
-                    name: 'code',
-                },
-                {
-                    data: 'name',
-                    name: 'name',
                 }, 
                 {
-                    data: 'standard_quota',
-                    name: 'standard_quota',
+                    data: 'first_name',
+                    name: 'first_name',
+                }, 
+                {
+                    data: 'last_name',
+                    name: 'last_name',
+                },
+                {
+                    data: 'email',
+                    name: 'email',
+                }, 
+                {
+                    data: 'district_id',
+                    name: 'district_id',
                 }, 
                 {
                     data: 'action',
@@ -162,31 +158,32 @@
 
         $(document).ready(function() {
              /**
-             * Create vehicle
+             * Create user
              */
              $('.btn-create').on('click', function(event) {
                 event.preventDefault();
-                document.getElementById("vehicle-form").reset();
+                document.getElementById("user-form").reset();
                 const id = null;
-                $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Create Vehicle`);
-                $('#vehicle-id').val(id);
-                $('.vehicle-modal').modal('toggle');
+                $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Create Customer`);
+                $('#user-id').val(id);
+                $('.user-modal').modal('toggle');
+                $('#password').attr("disabled", false);
             });
 
 
             /**
-             * edit vehicle
+             * edit user
              */
             /**
-             * edit vehicle
+             * edit user
              */
-             $('#table-vehicle').on('click', '.btn-edit', function(event) {
+             $('#table-user').on('click', '.btn-edit', function(event) {
                 event.preventDefault();
-                document.getElementById("vehicle-form").reset();
+                document.getElementById("user-form").reset();
                 const id = $(this).data('id');
-                $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Edit Vehicle`);
-                $('#vehicle-id').val(id);
-                const url = "vehicle/edit/"+id;
+                $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Edit Customer`);
+                $('#user-id').val(id);
+                const url = "user/edit/"+id;
 
                 let formData = {
                     id : id,
@@ -195,35 +192,35 @@
             
                 //Get Data
                 $.ajax({
-                    url: '{{ route('vehicle.edit') }}',
+                    url: '{{ route('user.edit') }}',
                     type:'POST',
                     data: formData,
                     beforeSend: function () {
-                        $('#vehicle-id').attr("disabled", true);
-                        $('#code').attr("disabled", true);
-                        $('#name').attr("disabled", true);
-                        $('#standard_quota').attr("disabled", true);
+                        $('#user-id').attr("disabled", true);
+                        $('#first_name').attr("disabled", true);
+                        $('#last_name').attr("disabled", true);
+                        $('#email').attr("disabled", true);
                     },
                     complete: function () {
-                        $('#vehicle-id').attr("disabled", false);
-                        $('#code').attr("disabled", false);
-                        $('#name').attr("disabled", false);
-                        $('#standard_quota').attr("disabled", false);
+                        $('#user-id').attr("disabled", false);
+                        $('#first_name').attr("disabled", false);
+                        $('#last_name').attr("disabled", false);
+                        $('#email').attr("disabled", false);
                     },
                     success: function (res) {
                         if(res.status == 200) {  
                            if(res.data){
-                            $('#vehicle-id').val(res.data.id);
-                            $('#code').val(res.data.code);
-                            $('#name').val(res.data.name);
-                            $('#standard_quota').val(res.data.standard_quota);
+                            $('#user-id').val(res.data.id);
+                            $('#first_name').val(res.data.first_name);
+                            $('#last_name').val(res.data.last_name);
+                            $('#email').val(res.data.email);
                            }
                         }
                     }
                 });
 
 
-                $('.vehicle-modal').modal('toggle');
+                $('.user-modal').modal('toggle');
             });
 
 
@@ -231,10 +228,10 @@
             /**
              * Submit modal
              */
-            $('#vehicle-form').submit(function(event){
+            $('#user-form').submit(function(event){
                 event.preventDefault();
 
-                const formId = $('#vehicle-id').val();
+                const formId = $('#user-id').val();
 
                 if(!formId || formId == null){
 
@@ -243,7 +240,7 @@
                     formData.append('_method', 'POST');
                     formData.append('_token', '{{ csrf_token() }}');
                     $.ajax({
-                        url: '{{ route('vehicle.create') }}',
+                        url: '{{ route('user.create') }}',
                         data: formData,
                         type:'POST',
                         dataType: 'json',
@@ -260,8 +257,8 @@
                         success: function (data) {
                             if(data.status == 200) {  
                                 swalSuccess('', data.nessage);
-                                tableVehicle();
-                                $('.vehicle-modal').modal('toggle');
+                                tableCustomer();
+                                $('.user-modal').modal('toggle');
                             }
                         }
                     });
@@ -273,7 +270,7 @@
                     formData.append('_method', 'PUT');
                     formData.append('_token', '{{ csrf_token() }}');
                     $.ajax({
-                        url:"{{ url('vehicle/update') }}" + '/' + formId,
+                        url:"{{ url('user/update') }}" + '/' + formId,
                         data: formData,
                         type:'POST',
                         dataType: 'json',
@@ -290,8 +287,8 @@
                         success: function (data) {
                             if(data.status == 200) {
                                 swalSuccess('', data.nessage);
-                                tableVehicle();
-                                $('.vehicle-modal').modal('toggle');
+                                tableCustomer();
+                                $('.user-modal').modal('toggle');
                             }
                         }
                     });
@@ -303,20 +300,20 @@
             })
 
             /**
-             * Delete vehicle
+             * Delete user
              */
-            $('#table-vehicle').on('click', '.btn-delete', function(event){
+            $('#table-user').on('click', '.btn-delete', function(event){
                 event.preventDefault();
                 const id       = $(this).data('id');
                 const name     = $(this).data('name');
                 const formData = new FormData();
-                const url      = "{{ route('vehicle.delete', ['id' => ':id']) }}";
+                const url      = "{{ route('user.delete', ['id' => ':id']) }}";
                 formData.append('id', id);
                 formData.append('name', name);
                 formData.append('_method', 'DELETE');
                 formData.append('_token', '{{ csrf_token() }}');
                 swalConfirm({
-                    title: 'Delete vehicle?',
+                    title: 'Delete user?',
                     confirm: 'Delete!',
                     cancel: 'Cancel',
                     icon: 'question',
@@ -328,7 +325,7 @@
                             processData: false,
                             contentType: false,
                             success: function(result) {
-                                tableVehicle();
+                                tableCustomer();
                                 swalSuccess('',result.message);
                             }
                         })

@@ -13,9 +13,11 @@ class UserService {
         private UserRepository $userRepository
     ){}
 
-    public function get(array $data)
+    public function get($user_type)
     {
-        return DataTables::eloquent($this->userRepository->getFilterQuery($data))
+
+        $custom_data = User::where('user_type', $user_type);
+        return DataTables::of($custom_data)
             ->addColumn('action', function($query){
                 if(Auth::user()->user_type == 1 || Auth::user()->user_type == 2){
                     $button = '<button type="button" data-id="'.$query->id.'" class="btn btn-primary btn-sm btn-edit"><i class="fas fa-pencil-alt"></i> Edit</button> ';
@@ -26,28 +28,6 @@ class UserService {
                 }
                
                 return $button;
-            })
-            // ->addColumn('department_id', function (User $department) {
-            //     return ($department->department != null) ? $department->department->name : "N/A";
-            // })
-            ->addColumn('user_type', function ($query) {
-                if($query->user_type != null){
-                    if($query->user_type ==  1){
-                        return "Head";
-                    }else{
-                        if($query->user_type ==  2){
-                            return "Manager";
-                        }else{
-                            if($query->user_type ==  3){
-                                return "Customer";
-                            }else{
-                                return "N/A";   
-                            }
-                        }
-                    }
-                }else{
-                    return "N/A";
-                }
             })
             ->rawColumns(['action'])
             ->toJson();

@@ -13,19 +13,21 @@
             <i class="right fas fa-angle-left"></i>
         </p>
     </a>
+
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('user') ? 'sub-active' : '' }}">
+            <a href="{{ route('manager.index') }}" class="nav-link {{ request()->is('*user/manager') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
-                <p>Customers</p>
+                <p>Managers</p>
             </a>
         </li>
     </ul>
+
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('user.index') }}" class="nav-link {{ request()->is('user') ? 'sub-active' : '' }}">
+            <a href="{{ route('customer.index') }}" class="nav-link {{ request()->is('*user/customer') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
-                <p>Managers</p>
+                <p>Customers</p>
             </a>
         </li>
     </ul>
@@ -123,7 +125,7 @@
 </li>
 
 
-{{-- 
+
 <li class="nav-item {{ request()->is('*report*') ? 'menu-opening menu-open' : '' }}">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-file"></i>
@@ -132,7 +134,7 @@
             <i class="right fas fa-angle-left"></i>
         </p>
     </a>
-    <ul class="nav nav-treeview">
+    {{-- <ul class="nav nav-treeview">
         <li class="nav-item">
             <a href="{{ route('workreport.index') }}" class="nav-link {{ request()->is('*report/work') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
@@ -147,5 +149,5 @@
                 <p>Income Report</p>
             </a>
         </li>
-    </ul>
-</li> --}}
+    </ul> --}}
+</li>
