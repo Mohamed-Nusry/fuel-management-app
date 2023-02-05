@@ -23,6 +23,7 @@
                                     <thead class="thead-dark">
                                         <tr role="row">
                                             <th>No</th>
+                                            <th>Reference</th>
                                             <th>Customer</th>
                                             <th>Vehicle</th>
                                             <th>Email</th>
@@ -67,6 +68,10 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },  
+                {
+                    data: 'reg_id',
+                    name: 'reg_id',
+                },
                 {
                     data: 'customer_id',
                     name: 'customer_id',

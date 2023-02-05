@@ -48,9 +48,13 @@ class User extends Authenticatable
     ];
 
 
-    // public function fuelStation() {
-    //     return $this->belongsTo('App\Models\FuelStation', 'fuel_station_id', 'id');
-    // }
+    public function fuelStation() {
+        return $this->belongsTo('App\Models\FuelStation', 'fuel_station_id', 'id');
+    }
+
+    public function district() {
+        return $this->belongsTo('App\Models\District', 'district_id', 'id');
+    }
 
     
 }

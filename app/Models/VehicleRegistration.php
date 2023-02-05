@@ -31,4 +31,12 @@ class VehicleRegistration extends Authenticatable
         'updated_by',
     ];
 
+    public function customer() {
+        return $this->belongsTo('App\Models\User', 'customer_id', 'id');
+    }
+
+    public function vehicle() {
+        return $this->belongsTo('App\Models\Vehicle', 'vehicle_id', 'id');
+    }
+
 }

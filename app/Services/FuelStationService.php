@@ -27,6 +27,24 @@ class FuelStationService {
                
                 return $button;
             })
+            ->addColumn('district_id', function (FuelStation $district) {
+                return ($district->district != null) ? $district->district->name : "N/A";
+            })
+            ->addColumn('status', function ($query) {
+                if($query->status != null){
+                    if($query->status ==  1){
+                        return "Active";
+                    }else{
+                        if($query->status ==  2){
+                            return "Inactive";
+                        }else{
+                                return "N/A";
+                        }
+                    }
+                }else{
+                    return "N/A";
+                }
+            })
             ->rawColumns(['action'])
             ->toJson();
     }

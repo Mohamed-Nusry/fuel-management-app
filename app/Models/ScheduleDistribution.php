@@ -28,4 +28,8 @@ class ScheduleDistribution extends Authenticatable
         'updated_by',
     ];
 
+    public function fuelStation() {
+        return $this->belongsTo('App\Models\FuelStation', 'fuel_station_id', 'id');
+    }
+
 }

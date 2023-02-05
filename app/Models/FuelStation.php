@@ -29,4 +29,8 @@ class FuelStation extends Authenticatable
         'updated_by',
     ];
 
+    public function district() {
+        return $this->belongsTo('App\Models\District', 'district_id', 'id');
+    }
+
 }

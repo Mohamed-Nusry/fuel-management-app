@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\ScheduleDistribution;
 use App\Repositories\ScheduleRepository;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
@@ -25,6 +26,28 @@ class ScheduleService {
                 }
                
                 return $button;
+            })
+            ->addColumn('fuel_station_id', function (ScheduleDistribution $fuelStation) {
+                return ($fuelStation->fuelStation != null) ? $fuelStation->fuelStation->name : "N/A";
+            })
+            ->addColumn('status', function ($query) {
+                if($query->status != null){
+                    if($query->status ==  1){
+                        return "Pending";
+                    }else{
+                        if($query->status ==  2){
+                            return "Recieved";
+                        }else{
+                            if($query->status ==  3){
+                                return "Not Recieved";
+                            }else{
+                                return "N/A";
+                            }
+                        }
+                    }
+                }else{
+                    return "N/A";
+                }
             })
             ->rawColumns(['action'])
             ->toJson();

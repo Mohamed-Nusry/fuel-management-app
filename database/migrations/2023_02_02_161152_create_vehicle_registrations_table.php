@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('vehicle_registrations', function (Blueprint $table) {
             $table->id();
+            $table->string('reg_id')->nullable();
             $table->integer('customer_id');
             $table->integer('vehicle_id');
             $table->string('email')->unique();

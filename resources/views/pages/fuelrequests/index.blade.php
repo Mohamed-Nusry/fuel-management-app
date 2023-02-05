@@ -105,12 +105,12 @@
                     name: 'fuel_station_id',
                 },
                 {
-                    data: 'vehicle_registration_id',
-                    name: 'vehicle_registration_id',
-                }, 
-                {
                     data: 'vehicle_id',
                     name: 'vehicle_id',
+                }, 
+                {
+                    data: 'vehicle_registration_id',
+                    name: 'vehicle_registration_id',
                 }, 
                 {
                     data: 'requested_quota',

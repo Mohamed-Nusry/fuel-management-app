@@ -31,4 +31,20 @@ class FuelRequest extends Authenticatable
         'updated_by',
     ];
 
+    public function customer() {
+        return $this->belongsTo('App\Models\User', 'customer_id', 'id');
+    }
+
+    public function fuelStation() {
+        return $this->belongsTo('App\Models\FuelStation', 'fuel_station_id', 'id');
+    }
+
+    public function vehicle() {
+        return $this->belongsTo('App\Models\Vehicle', 'vehicle_id', 'id');
+    }
+
+    public function vehicleRegistration() {
+        return $this->belongsTo('App\Models\VehicleRegistration', 'vehicle_registration_id', 'id');
+    }
+
 }

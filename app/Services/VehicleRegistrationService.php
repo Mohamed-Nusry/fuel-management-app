@@ -16,6 +16,12 @@ class VehicleRegistrationService {
     public function get(array $data)
     {
         return DataTables::eloquent($this->vehicleRepository->getFilterQuery($data))
+            ->addColumn('customer_id', function (VehicleRegistration $customer) {
+                return ($customer->customer != null) ? $customer->customer->first_name.' '.$customer->customer->last_name : "N/A";
+            })
+            ->addColumn('vehicle_id', function (VehicleRegistration $vehicle) {
+                return ($vehicle->vehicle != null) ? $vehicle->vehicle->name : "N/A";
+            })
             ->toJson();
     }
 
