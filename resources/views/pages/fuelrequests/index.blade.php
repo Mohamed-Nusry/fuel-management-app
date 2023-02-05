@@ -137,6 +137,63 @@
             });
         }
 
+        //On Mark as accept button click
+        $('#table-fuelrequest').on('click', '.btn-accept', function(event){
+            event.preventDefault();
+            const id       = $(this).data('id');
+            const name     = $(this).data('name');
+            const status     = 2;
+
+            changeStatus(id, name, status)
+            
+        })
+
+        //On Mark as reject button click
+        $('#table-fuelrequest').on('click', '.btn-reject', function(event){
+            event.preventDefault();
+            const id       = $(this).data('id');
+            const name     = $(this).data('name');
+            const status     = 3;
+
+            changeStatus(id, name, status)
+            
+        })
+        
+        //On Mark as reschedule button click
+        $('#table-fuelrequest').on('click', '.btn-reschedule', function(event){
+          //Add with rescheduled date and time
+            
+        })
+        
+        //Change Status
+        function changeStatus(id, name, status){
+            const formData = new FormData();
+            formData.append('id', id);
+            formData.append('name', name);
+            formData.append('status', status);
+            formData.append('_method', 'POST');
+            formData.append('_token', '{{ csrf_token() }}');
+            swalConfirm({
+                title: 'Change Status?',
+                confirm: 'Proceed',
+                cancel: 'Cancel',
+                icon: 'question',
+                complete: (result) => {
+                    $.ajax({
+                        url: '{{ route('fuelrequest.status') }}',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(result) {
+                            tableFuelRequest();
+                            swalSuccess('',result.message);
+                        }
+                    })
+                }
+            })
+        }
+
         $(document).ready(function() {
             /**
              * Help Button

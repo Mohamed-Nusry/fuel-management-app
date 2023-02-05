@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ScheduleRequest;
 use App\Http\Requests\ScheduleUpdateRequest;
 use App\Models\FuelStation;
+use App\Models\ScheduleDistribution;
 use App\Services\ScheduleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -85,6 +86,42 @@ class ScheduleController extends Controller
             return $this->sendSuccess([
                 'message'   => 'Schedule '.$request->name.' has been deleted',
                 'data'      => $this->scheduleService->delete($id)
+            ]);
+        } catch (\Exception $e) {
+            return $this->sendError($e);
+        }
+    }
+
+    public function changeStatus(Request $request){
+
+        try {
+            $input = [];
+            $input = $request->all();
+            $input['updated_by'] = Auth::user()->id;
+
+            $update_status = $this->scheduleService->update($input, $request->id);
+
+            if($update_status && $request->status == 2){
+                //Add quota to station
+                $get_data_count = ScheduleDistribution::where('id',$request->id)->count();
+
+                if($get_data_count > 0){
+                    $get_data = ScheduleDistribution::where('id',$request->id)->first();
+
+                    $get_station_count = FuelStation::where('id', $get_data->fuel_station_id)->count();
+
+                    if($get_station_count > 0){
+                        $update_get_station = FuelStation::where('id', $get_data->fuel_station_id)->first();
+                        $update_get_station->available_quota = $update_get_station->available_quota + $get_data->quota;
+                        $update_get_station->save();
+
+                    }
+                }
+            }
+           
+            return $this->sendSuccess([
+                'message'   => 'Status has been updated',
+                'data'      => null
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);

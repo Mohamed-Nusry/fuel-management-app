@@ -357,6 +357,58 @@
                 })
             })
 
+            
+             //On Mark as recieved button click
+             $('#table-schedule').on('click', '.btn-recieved', function(event){
+                event.preventDefault();
+                const id       = $(this).data('id');
+                const name     = $(this).data('name');
+                const status     = 2;
+
+                changeStatus(id, name, status)
+                
+            })
+
+             //On Mark as cancelled button click
+             $('#table-schedule').on('click', '.btn-cancelled', function(event){
+                event.preventDefault();
+                const id       = $(this).data('id');
+                const name     = $(this).data('name');
+                const status     = 3;
+
+                changeStatus(id, name, status)
+                
+            })
+            
+            //Change Status
+            function changeStatus(id, name, status){
+                const formData = new FormData();
+                formData.append('id', id);
+                formData.append('name', name);
+                formData.append('status', status);
+                formData.append('_method', 'POST');
+                formData.append('_token', '{{ csrf_token() }}');
+                swalConfirm({
+                    title: 'Change Status?',
+                    confirm: 'Proceed',
+                    cancel: 'Cancel',
+                    icon: 'question',
+                    complete: (result) => {
+                        $.ajax({
+                            url: '{{ route('schedule.status') }}',
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(result) {
+                                tableSchedule();
+                                swalSuccess('',result.message);
+                            }
+                        })
+                    }
+                })
+            }
+
             /**
              * Help Button
              */

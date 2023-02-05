@@ -74,6 +74,7 @@ Route::prefix('schedule')->group(function () {
     Route::post('edit', [ScheduleController::class, 'edit'])->name('schedule.edit');
     Route::put('update/{id}', [ScheduleController::class, 'update'])->name('schedule.update');
     Route::delete('delete/{id}', [ScheduleController::class, 'delete'])->name('schedule.delete');
+    Route::post('status', [ScheduleController::class, 'changeStatus'])->name('schedule.status');
 });
 
 Route::prefix('vehicleregister')->group(function () {
@@ -90,6 +91,8 @@ Route::prefix('fuelrequest')->group(function () {
     Route::post('edit', [FuelRequestController::class, 'edit'])->name('fuelrequest.edit');
     Route::put('update/{id}', [FuelRequestController::class, 'update'])->name('fuelrequest.update');
     Route::delete('delete/{id}', [FuelRequestController::class, 'delete'])->name('fuelrequest.delete');
+    Route::post('status', [FuelRequestController::class, 'changeStatus'])->name('fuelrequest.status');
+
 });
 
 Route::prefix('payment')->group(function () {

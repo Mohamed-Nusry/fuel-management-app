@@ -82,4 +82,27 @@ class FuelRequestController extends Controller
             return $this->sendError($e);
         }
     }
+
+    public function changeStatus(Request $request){
+
+        try {
+            $input = [];
+            $input = $request->all();
+            $input['updated_by'] = Auth::user()->id;
+
+            $update_status = $this->fuelrequestService->update($input, $request->id);
+
+            if($update_status && ($request->status == 2 || $request->status == 5)){
+                //Create Token
+                
+            }
+           
+            return $this->sendSuccess([
+                'message'   => 'Status has been updated and token issued',
+                'data'      => null
+            ]);
+        } catch (\Exception $e) {
+            return $this->sendError($e);
+        }
+    }
 }

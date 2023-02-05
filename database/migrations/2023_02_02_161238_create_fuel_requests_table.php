@@ -15,13 +15,15 @@ return new class extends Migration
     {
         Schema::create('fuel_requests', function (Blueprint $table) {
             $table->id();
+            $table->string('reference')->nullable();
             $table->integer('customer_id');
             $table->integer('fuel_station_id');
             $table->integer('vehicle_registration_id');
             $table->integer('vehicle_id')->nullable();
             $table->double('requested_quota')->default(0); //In liters
             $table->dateTime('expected_date_time');
-            $table->integer('status')->default(1); //1 = Pending, 2 = Accepted, 3 = Rejected due to customer issue, 4 = Rejected due to fuel issue, 5 = Rescheduled, 6 = Rejected by customer, 7 = Completed
+            $table->dateTime('rescheduled_date_time')->nullable();
+            $table->integer('status')->default(1); //1 = Pending, 2 = Accepted, 3 = Rejected due to customer issue / fuel issue, 5 = Rescheduled, 6 = Rejected by customer, 7 = Completed
             $table->integer('created_by')->default(1);
             $table->integer('updated_by')->default(1);
             $table->timestamps();

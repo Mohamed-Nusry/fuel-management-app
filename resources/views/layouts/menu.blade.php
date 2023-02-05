@@ -121,6 +121,14 @@
             </a>
         </li>
     </ul>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('fuelrequest.index') }}" class="nav-link {{ request()->is('*fuelrequest') ? 'sub-active' : '' }}">
+                &nbsp;&nbsp;&nbsp;
+                <p>Tokens</p>
+            </a>
+        </li>
+    </ul>
 
 </li>
 
