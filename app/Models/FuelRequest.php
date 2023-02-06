@@ -26,6 +26,7 @@ class FuelRequest extends Authenticatable
         'vehicle_id',
         'requested_quota',
         'expected_date_time',
+        'rescheduled_date_time',
         'status',
         'created_by',
         'updated_by',

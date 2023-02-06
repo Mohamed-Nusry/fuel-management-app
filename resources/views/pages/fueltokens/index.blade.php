@@ -7,30 +7,26 @@
 @section('content')
     <div class="container-fluid">
 
-        <h2 style="padding:10px">Fuel Requests</h2>
+        <h2 style="padding:10px">Fuel Tokens</h2>
        
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Request List</h3>
+                        <h3 class="card-title">Token List</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12">
-                                <table id="table-fuelrequest" class="table table-bordered">
+                                <table id="table-fueltoken" class="table table-bordered">
                                     <thead class="thead-dark">
                                         <tr role="row">
                                             <th>No</th>
-                                            <th>Ref</th>
+                                            <th>Token Ref</th>
                                             <th>Customer</th>
-                                            <th>Fuel Station</th>
-                                            <th>Vehicle Type</th>
-                                            <th>Vehicle Registration ID</th>
-                                            <th>Requested Quota (Liters)</th>
-                                            <th>Expected Date And Time</th>
-                                            <th>Rescheduled Date And Time</th>
+                                            <th>Fuel Request Ref</th>
+                                            <th>Payment Reference</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -81,14 +77,14 @@
     @include('layouts.assets.js.datatables_js')
 
     <script>
-        tableFuelRequest();
+        tableFuelToken();
         /**
          * load table fuel station
          */
-        function tableFuelRequest() {
+        function tableFuelToken() {
             generateDataTable({
-                selector: $('#table-fuelrequest'),
-                url: '{{ route('fuelrequest.index') }}',
+                selector: $('#table-fueltoken'),
+                url: '{{ route('fueltoken.index') }}',
                 columns: [{
                     data: null,
                     sortable: false,
@@ -99,36 +95,20 @@
                     }
                 },  
                 {
-                    data: 'reference',
-                    name: 'reference',
+                    data: 'token_ref',
+                    name: 'token_ref',
                 },
                 {
                     data: 'customer_id',
                     name: 'customer_id',
                 },
                 {
-                    data: 'fuel_station_id',
-                    name: 'fuel_station_id',
+                    data: 'fuel_request_id',
+                    name: 'fuel_request_id',
                 },
                 {
-                    data: 'vehicle_id',
-                    name: 'vehicle_id',
-                }, 
-                {
-                    data: 'vehicle_registration_id',
-                    name: 'vehicle_registration_id',
-                }, 
-                {
-                    data: 'requested_quota',
-                    name: 'requested_quota',
-                }, 
-                {
-                    data: 'expected_date_time',
-                    name: 'expected_date_time',
-                }, 
-                {
-                    data: 'rescheduled_date_time',
-                    name: 'rescheduled_date_time',
+                    data: 'payment_reference',
+                    name: 'payment_reference',
                 }, 
                 {
                     data: 'status',
@@ -147,19 +127,10 @@
             });
         }
 
-        //On Mark as accept button click
-        $('#table-fuelrequest').on('click', '.btn-accept', function(event){
-            event.preventDefault();
-            const id       = $(this).data('id');
-            const name     = $(this).data('name');
-            const status     = 2;
-
-            changeStatus(id, name, status)
-            
-        })
+        
 
         //On Mark as reject button click
-        $('#table-fuelrequest').on('click', '.btn-reject', function(event){
+        $('#table-fueltoken').on('click', '.btn-reject', function(event){
             event.preventDefault();
             const id       = $(this).data('id');
             const name     = $(this).data('name');
@@ -169,44 +140,61 @@
             
         })
         
-        //On Mark as reschedule button click
-        $('#table-fuelrequest').on('click', '.btn-reschedule', function(event){
-          //Add with rescheduled date and time
+        //On Mark as complete button click
+        $('#table-fueltoken').on('click', '.btn-complete', function(event){
+          //Add with payment reference
           swalConfirm({
-            title: 'Select Date And Time To Reschedule:',
+            title: 'Enter Payment Reference Number (Optional)',
             confirm: 'Proceed',
             cancel: 'Cancel',
             type: 'question',
-            html: '<input type="datetime-local" name="scheduled_date_time" class="form-control" id="rescheduled_date_time" placeholder="Date And Time">',
+            html: '<input type="text" name="payment_reference" class="form-control" id="payment_reference" placeholder="Payment Reference Number">',
             customClass: 'swal2-overflow',
             complete: (result) => {
 
-                var rescheduledDateTime = $('#rescheduled_date_time').val();
+                var paymentReference = $('#payment_reference').val();
 
-                if(rescheduledDateTime && rescheduledDateTime != null && rescheduledDateTime != ""){
+                if(paymentReference && paymentReference != null && paymentReference != ""){
 
                     const formData = new FormData();
                     formData.append('id', $(this).data('id'));
                     formData.append('name', $(this).data('name'));
                     formData.append('status', 5);
-                    formData.append('rescheduled_date_time', rescheduledDateTime);
+                    formData.append('payment_reference', paymentReference);
                     formData.append('_method', 'POST');
                     formData.append('_token', '{{ csrf_token() }}');
                     
                     $.ajax({
-                        url: '{{ route('fuelrequest.status') }}',
+                        url: '{{ route('fueltoken.status') }}',
                         type: 'POST',
                         data: formData,
                         processData: false,
                         contentType: false,
                         success: function(result) {
-                            tableFuelRequest();
+                            tableFuelToken();
                             swalSuccess('',result.message);
                         }
                     })
 
                 }else{
-                    alert('Please Select Date And Time');
+                    const formData = new FormData();
+                    formData.append('id', $(this).data('id'));
+                    formData.append('name', $(this).data('name'));
+                    formData.append('status', 5);
+                    formData.append('_method', 'POST');
+                    formData.append('_token', '{{ csrf_token() }}');
+                    
+                    $.ajax({
+                        url: '{{ route('fueltoken.status') }}',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(result) {
+                            tableFuelToken();
+                            swalSuccess('',result.message);
+                        }
+                    })
                 }
                   
                 }
@@ -228,13 +216,13 @@
                 icon: 'question',
                 complete: (result) => {
                     $.ajax({
-                        url: '{{ route('fuelrequest.status') }}',
+                        url: '{{ route('fueltoken.status') }}',
                         type: 'POST',
                         data: formData,
                         processData: false,
                         contentType: false,
                         success: function(result) {
-                            tableFuelRequest();
+                            tableFuelToken();
                             swalSuccess('',result.message);
                         }
                     })

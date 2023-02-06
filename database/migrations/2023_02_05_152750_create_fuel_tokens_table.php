@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('customer_id');
             $table->integer('fuel_request_id');
             $table->string('payment_reference')->nullable();
-            $table->integer('status')->default(1); //1 = Pending, 2 = Collected, 3 = Rejected, 4 = Expired, 7 = Completed
+            $table->integer('status')->default(1); //1 = Pending, 2 = Collected, 3 = Rejected, 4 = Expired, 5 = Completed
             $table->integer('created_by')->default(1);
             $table->integer('updated_by')->default(1);
             $table->timestamps();

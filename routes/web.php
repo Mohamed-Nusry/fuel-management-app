@@ -9,6 +9,7 @@ use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\VehicleRegistrationController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\FuelRequestController;
+use App\Http\Controllers\FuelTokenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +94,15 @@ Route::prefix('fuelrequest')->group(function () {
     Route::delete('delete/{id}', [FuelRequestController::class, 'delete'])->name('fuelrequest.delete');
     Route::post('status', [FuelRequestController::class, 'changeStatus'])->name('fuelrequest.status');
 
+});
+
+Route::prefix('fueltoken')->group(function () {
+    Route::get('/', [FuelTokenController::class, 'index'])->name('fueltoken.index');
+    Route::post('create', [FuelTokenController::class, 'create'])->name('fueltoken.create');
+    Route::post('edit', [FuelTokenController::class, 'edit'])->name('fueltoken.edit');
+    Route::put('update/{id}', [FuelTokenController::class, 'update'])->name('fueltoken.update');
+    Route::delete('delete/{id}', [FuelTokenController::class, 'delete'])->name('fueltoken.delete');
+    Route::post('status', [FuelTokenController::class, 'changeStatus'])->name('fueltoken.status');
 });
 
 Route::prefix('payment')->group(function () {
