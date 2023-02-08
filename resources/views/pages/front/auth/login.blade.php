@@ -49,9 +49,9 @@
             <div class="container py-5 h-100">
                 
             
-            <p class="login-box-msg text-white-50 mb-3">Admin Login</p>
+            <p class="login-box-msg text-white-50 mb-3">Customer login</p>
 
-            <form method="post" action="{{ url('/login') }}">
+            <form method="post" action="{{ url('/front/login') }}">
                 @csrf
 
                 <div class="input-group mb-3">
@@ -94,6 +94,9 @@
 
                     <div class="col-4">
                         <button type="submit" class="btn btn-primary  ">Login</button>
+                    </div>
+                    <div class="col-4">
+                        <a href="{{route('front.register')}}"><button type="button" class="btn btn-success">Register</button></a>
                     </div>
 
                 </div>

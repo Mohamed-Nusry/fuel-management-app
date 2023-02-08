@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('reg_id')->nullable();
             $table->integer('customer_id');
             $table->integer('vehicle_id');
-            $table->string('email')->unique();
             $table->string('vehicle_registration_number')->unique();
             $table->string('chassis_no')->unique();
             $table->double('total_quota')->default(0); //In liters

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Front\FrontLoginController;
+use App\Http\Controllers\Front\FrontRegisterController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -10,6 +12,7 @@ use App\Http\Controllers\VehicleRegistrationController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\FuelRequestController;
 use App\Http\Controllers\FuelTokenController;
+use App\Http\Controllers\Front\FrontHomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +27,34 @@ use App\Http\Controllers\FuelTokenController;
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/', [HomeController::class, 'index'])->name('home');
+//Front Routes
+Route::prefix('')->middleware('frontRoleCheck')->group(function () {
+    Route::get('/home', [FrontHomeController::class, 'index'])->name('front.home');
+    Route::get('/', [FrontHomeController::class, 'index'])->name('front.home');
 
+
+    Route::prefix('front')->group(function () {
+        Route::get('/login', [FrontLoginController::class, 'index'])->name('front.login');
+        Route::post('/login', [FrontLoginController::class, 'loginUser'])->name('front.login.auth');
+
+        Route::get('/register', [FrontRegisterController::class, 'index'])->name('front.register');
+        Route::post('/register', [FrontRegisterController::class, 'registerUser'])->name('front.register.create');
+
+        Route::prefix('home')->group(function () {
+            Route::get('/', [FrontHomeController::class, 'index'])->name('front.home.index');
+        });
+        Route::prefix('vehicle')->group(function () {
+            Route::get('/create', [FrontHomeController::class, 'vehicleCreate'])->name('front.vehicle.create');
+            Route::get('/', [FrontHomeController::class, 'vehicleShow'])->name('front.vehicle.index');
+        });
+    });
+});
+
+//Admin And Common Routes
+Route::prefix('')->middleware('adminRoleCheck')->group(function () {
+    Route::get('/admin', [HomeController::class, 'index'])->name('home');
+    Route::get('/admin/home', [HomeController::class, 'index'])->name('home');
+});
 
 Route::prefix('user')->group(function () {
     Route::post('create', [UserController::class, 'create'])->name('user.create');

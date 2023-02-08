@@ -25,7 +25,6 @@ class VehicleRegistrationUpdateRequest extends FormRequest
     {
         return [
             'vehicle_id' => 'required',
-            'email ' => 'required',
             'vehicle_registration_number  ' => 'required',
             'chassis_no  ' => 'required',
         ];
@@ -35,7 +34,6 @@ class VehicleRegistrationUpdateRequest extends FormRequest
     {
         return [
             'vehicle_id.required' => 'Vehicle Required!',
-            'email.required' => 'Email Required!',
             'vehicle_registration_number.required' => 'Vehicle Registration Required!',
             'chassis_no.required' => 'Chasis No Required!',
         ];

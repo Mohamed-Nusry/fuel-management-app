@@ -23,7 +23,7 @@ class FuelStationController extends Controller
             return $this->fuelstationService->get($request->all());
         }
 
-        //Get Departments
+        //Get Districts
         $all_districts = [];
         $districts_count = District::count();
         if($districts_count > 0){

@@ -22,7 +22,6 @@ class VehicleRegistration extends Authenticatable
     protected $fillable = [
         'customer_id',
         'vehicle_id',
-        'email',
         'vehicle_registration_number',
         'chassis_no',
         'total_quota',

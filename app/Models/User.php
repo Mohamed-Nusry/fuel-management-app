@@ -20,6 +20,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'fuel_station_id',
+        'district_id',
         'user_type',
         'name',
         'email',

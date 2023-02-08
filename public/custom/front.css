@@ -1,0 +1,23 @@
+.content-wrapper, .main-header, .main-footer {
+    margin-left: 0 !important;
+}
+
+.add-div {
+    cursor: pointer;
+    border: 10px solid #202020;
+    height: 250px;
+    width: 250px;
+    position:relative;
+}
+
+.add-div:hover {
+    border: 10px solid #6e9d9d;
+}
+
+.icon-add{
+    position:absolute;
+    top:35%;
+    left:35%;
+    color: #000;
+}
+
