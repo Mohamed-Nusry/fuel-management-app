@@ -13,14 +13,34 @@
                 <br>
                 <h1 class="h3 mb-3 text-center"><strong>My Vehicles</strong> </h1>
                 <br>
+                
                 <div class="row">
-                    <div class="col-xl-6 col-xxl-5 d-flex">
+                 
+                    @if($vehicle_registrations && $vehicle_registrations != null && count($vehicle_registrations) > 0)
+                        @foreach ($vehicle_registrations as $vehicle_reg)
+                            <div class="col-xl-3 col-md-4 col-sm-6 col-xxl-3 d-flex">
+                                <a href="{{url('front/vehicle/'.$vehicle_reg->id)}}">
+                                    <div class="add-div">
+                                        <h2 class="para-add-standard">{{$vehicle_reg->vehicle ? $vehicle_reg->vehicle->name : 'Vehicle'}}</h2>
+                                       
+                                        <h2 class="para-add">{{$vehicle_reg->vehicle_registration_number}}</h2>
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    @endif
+
+
+                    <div class="col-xl-3 col-md-4 col-sm-6 col-xxl-3 d-flex">
                         <a href="{{route('front.vehicle.create')}}">
                             <div class="add-div">
                                 <i class="fa fa-plus icon-add fa-5x"  aria-hidden="true"></i>
                             </div>
                         </a>
                     </div>
+                  
+
+
                 </div>
 
 

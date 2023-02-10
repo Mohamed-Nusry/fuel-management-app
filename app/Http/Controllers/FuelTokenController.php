@@ -28,6 +28,15 @@ class FuelTokenController extends Controller
 
         return view('pages/fueltokens/index');
     }
+
+    public function byCustomer(Request $request){
+       
+        if($request->ajax()) {
+            return $this->fueltokenService->customer($request->all());
+        }
+
+        return view('pages/fueltokens/index');
+    }
     
     public function edit(Request $request){
         try {

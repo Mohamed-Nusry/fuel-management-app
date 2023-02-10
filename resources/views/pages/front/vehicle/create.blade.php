@@ -4,6 +4,7 @@
 @section('content')
 
 
+
 <div class="wrapper">
     <div class="main">
         <main class="content">
@@ -12,12 +13,12 @@
                 <div class="card p-2">
                     <div class="card-body ">
                       
-                        <form method="post" action="{{ route('vehicleregistration.create') }}">
+                        <form id="vehicleregistration-form" name="vehicleregistration-form" method="post">
                             @csrf
 
                             <div class="input-group mb-3">
-                                <select  class="form-control @error('vehicle_id') is-invalid @enderror" id="vehicle_id" name="vehicle_id" class="form-control">
-                                    <option>Select Vehicle Type</option>
+                                <select  class="form-control @error('vehicle_id') is-invalid @enderror" id="vehicle_id" name="vehicle_id" >
+                                    <option value="">Select Vehicle Type</option>
                                     @if (count($all_vehicles) > 0)
                                         @foreach ($all_vehicles as $vehicle)
                                             <option value="{{$vehicle->id}}">{{$vehicle->name}}</option>
@@ -45,7 +46,7 @@
                                        placeholder="Vehicle Registration Number">
                                
                                 @error('vehicle_registration_number')
-                                <span class="error invalid-feedback">{{ $message }}</span>
+                                    <span class="error invalid-feedback">{{ $message }}</span>
                                 @enderror
                             </div>
             
@@ -91,6 +92,45 @@
 
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
+
+              /**
+             * Submit modal
+             */
+             $('#vehicleregistration-form').submit(function(event){
+                event.preventDefault();
+
+                //Create
+                const formData = new FormData(this);
+                formData.append('_method', 'POST');
+                formData.append('_token', '{{ csrf_token() }}');
+                $.ajax({
+                    url: '{{ route('vehicleregistration.create') }}',
+                    data: formData,
+                    type:'POST',
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function () {
+                        $('.btn-save').attr("disabled", true);
+                        $('.btn-save').text('Please wait......');
+                    },
+                    complete: function () {
+                        $('.btn-save').attr("disabled", false);
+                        $('.btn-save').text('Successfully Created');
+                    },
+                    success: function (data) {
+                        if(data.status == 200) {  
+                            swalSuccess('', data.nessage);
+                            window.location.href = "/";
+                        }
+                    }
+                });
+
+                
+
+                
+                return false;
+            })
 	
 		});
 	</script>

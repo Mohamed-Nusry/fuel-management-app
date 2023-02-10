@@ -8,16 +8,43 @@
     height: 250px;
     width: 250px;
     position:relative;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .add-div:hover {
     border: 10px solid #6e9d9d;
 }
 
-.icon-add{
+.icon-add {
     position:absolute;
     top:35%;
     left:35%;
     color: #000;
 }
+
+.para-add-standard {
+    text-align: center;
+    color: #000;
+}
+
+.para-add {
+    text-align: center;
+    background: rebeccapurple;
+    color: #fff;
+    padding: 10px;
+}
+
+.custom-progress-bar {
+    width: 100%;
+    height: 50px;
+}
+
+/* progress {
+    text-align: center;
+}
+
+progress:after {
+    content: attr(value)'%';
+} */
 

@@ -75,6 +75,65 @@ class FuelTokenService {
             ->toJson();
     }
 
+    public function customer(array $data)
+    {
+        $custom_data = FuelToken::where('customer_id', Auth::user()->id)->orderBy('id', 'desc');
+        return DataTables::of($custom_data)
+            ->addColumn('action', function($query){
+
+                if(Auth::user()->user_type == 3){
+                    if($query->status ==  1){
+                        $button = '&nbsp;<button type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-success btn-sm btn-collect"> Collect</button>';
+                    }else{
+                        $button = '&nbsp;<button disabled type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-success btn-sm btn-collect"> Collect</button>';
+                    }
+                }else{
+                    if($query->status ==  1){
+                        $button = '&nbsp;<button disabled type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-success btn-sm btn-collect"> Collect</button>';
+                    }else{
+                        $button = '&nbsp;<button disabled type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-success btn-sm btn-collect"> Collect</button>';
+                    }
+                }
+               
+                return $button;
+            })
+            ->addColumn('customer_id', function (FuelToken $customer) {
+                return ($customer->customer != null) ? $customer->customer->first_name.' '.$customer->customer->last_name : "N/A";
+            })
+            ->addColumn('fuel_request_id', function (FuelToken $fuelRequest) {
+                return ($fuelRequest->fuelRequest != null) ? $fuelRequest->fuelRequest->reference : "N/A";
+            })
+            ->addColumn('status', function ($query) {
+                if($query->status != null){
+                    if($query->status ==  1){
+                        return "Pending";
+                    }else{
+                        if($query->status ==  2){
+                            return "Collected";
+                        }else{
+                            if($query->status ==  3){
+                                return "Rejected";
+                            }else{
+                                if($query->status ==  4){
+                                    return "Expired";
+                                }else{
+                                    if($query->status ==  5){
+                                        return "Completed";
+                                    }else{
+                                        return "N/A";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    return "N/A";
+                }
+            })
+            ->rawColumns(['action'])
+            ->toJson();
+    }
+
     public function create(array $data)
     {
         try {

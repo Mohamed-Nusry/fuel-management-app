@@ -93,6 +93,52 @@ class FuelRequestService {
             ->toJson();
     }
 
+    public function customer(array $data)
+    {
+        $custom_data = FuelRequest::where('customer_id', Auth::user()->id)->orderBy('id', 'desc');
+        return DataTables::of($custom_data)
+            ->addColumn('fuel_station_id', function (FuelRequest $fuelStation) {
+                return ($fuelStation->fuelStation != null) ? $fuelStation->fuelStation->name : "N/A";
+            })
+            ->addColumn('status', function ($query) {
+                if($query->status != null){
+                    if($query->status ==  1){
+                        return "Pending";
+                    }else{
+                        if($query->status ==  2){
+                            return "Accepted";
+                        }else{
+                            if($query->status ==  3){
+                                return "Rejected";
+                            }else{
+                                if($query->status ==  4){
+                                    return "No Stock";
+                                }else{
+                                    if($query->status ==  5){
+                                        return "Rescheduled";
+                                    }else{
+                                        if($query->status == 6){
+                                            return "Rejected by customer";
+                                        }else{
+                                            if($query->status == 7){
+                                                return "Completed";
+                                            }else{
+                                                return "N/A";
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    return "N/A";
+                }
+            })
+            ->rawColumns(['action'])
+            ->toJson();
+    }
+
     public function create(array $data)
     {
         try {

@@ -45,7 +45,7 @@ Route::prefix('')->middleware('frontRoleCheck')->group(function () {
         });
         Route::prefix('vehicle')->group(function () {
             Route::get('/create', [FrontHomeController::class, 'vehicleCreate'])->name('front.vehicle.create');
-            Route::get('/', [FrontHomeController::class, 'vehicleShow'])->name('front.vehicle.index');
+            Route::get('/{id}', [FrontHomeController::class, 'vehicleShow'])->name('front.vehicle.index');
         });
     });
 });
@@ -106,16 +106,9 @@ Route::prefix('schedule')->group(function () {
     Route::post('status', [ScheduleController::class, 'changeStatus'])->name('schedule.status');
 });
 
-Route::prefix('vehicleregister')->group(function () {
-    Route::get('/', [VehicleRegistrationController::class, 'index'])->name('vehicleregister.index');
-    Route::post('create', [VehicleRegistrationController::class, 'create'])->name('vehicleregister.create');
-    Route::post('edit', [VehicleRegistrationController::class, 'edit'])->name('vehicleregister.edit');
-    Route::put('update/{id}', [VehicleRegistrationController::class, 'update'])->name('vehicleregister.update');
-    Route::delete('delete/{id}', [VehicleRegistrationController::class, 'delete'])->name('vehicleregister.delete');
-});
-
 Route::prefix('fuelrequest')->group(function () {
     Route::get('/', [FuelRequestController::class, 'index'])->name('fuelrequest.index');
+    Route::get('/customer', [FuelRequestController::class, 'byCustomer'])->name('fuelrequest.customer');
     Route::post('create', [FuelRequestController::class, 'create'])->name('fuelrequest.create');
     Route::post('edit', [FuelRequestController::class, 'edit'])->name('fuelrequest.edit');
     Route::put('update/{id}', [FuelRequestController::class, 'update'])->name('fuelrequest.update');
@@ -126,6 +119,7 @@ Route::prefix('fuelrequest')->group(function () {
 
 Route::prefix('fueltoken')->group(function () {
     Route::get('/', [FuelTokenController::class, 'index'])->name('fueltoken.index');
+    Route::get('/customer', [FuelTokenController::class, 'byCustomer'])->name('fueltoken.customer');
     Route::post('create', [FuelTokenController::class, 'create'])->name('fueltoken.create');
     Route::post('edit', [FuelTokenController::class, 'edit'])->name('fueltoken.edit');
     Route::put('update/{id}', [FuelTokenController::class, 'update'])->name('fueltoken.update');

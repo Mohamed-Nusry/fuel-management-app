@@ -79,7 +79,7 @@
     <script>
         tableFuelToken();
         /**
-         * load table fuel station
+         * load table fuel tokens
          */
         function tableFuelToken() {
             generateDataTable({

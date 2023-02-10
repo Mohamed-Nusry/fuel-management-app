@@ -28,6 +28,15 @@ class FuelRequestController extends Controller
 
         return view('pages/fuelrequests/index');
     }
+
+    public function byCustomer(Request $request){
+       
+        if($request->ajax()) {
+            return $this->fuelrequestService->customer($request->all());
+        }
+
+        return view('pages/fuelrequests/index');
+    }
     
     public function edit(Request $request){
         try {
@@ -49,10 +58,21 @@ class FuelRequestController extends Controller
             $input = $request->all();
             $input['created_by'] = Auth::user()->id;
             $input['updated_by'] = Auth::user()->id;
+            $input['customer_id'] = Auth::user()->id;
+
+                
+            $create_fuel_request = $this->fuelrequestService->create($input);
+
+            if($create_fuel_request){
+                //Add Reference No
+                $update_vehicle_reg = FuelRequest::where('id', $create_fuel_request->id)->first();
+                $update_vehicle_reg->reference = 'REF00'.$create_fuel_request->id;
+                $update_vehicle_reg->save();
+            }
 
             return $this->sendSuccess([
                 'message'   => 'Fuel Request has been created',
-                'data'      => $this->fuelrequestService->create($input)
+                'data'      => $create_fuel_request
             ]);
         } catch (\Exception $e) {
             return $this->sendError($e);
