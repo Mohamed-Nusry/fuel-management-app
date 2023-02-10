@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserUpdateRequest;
+use App\Models\FuelStation;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,21 +17,30 @@ class UserController extends Controller
         private UserService $userService
     ){}
 
-    public function index(Request $request){
+    public function customer(Request $request){
        
         if($request->ajax()) {
-            return $this->userService->get($request->all());
+            return $this->userService->get(3);
         }
 
-        //Get Departments
-        $all_departments = [];
-        // $departments_count = Department::count();
-        // if($departments_count > 0){
-        //     $get_departments = Department::all();
-        //     $all_departments = $get_departments;
-        // }
+        return view('pages/users/customers/index');
+    }
+    
+    public function manager(Request $request){
+       
+        if($request->ajax()) {
+            return $this->userService->get(2);
+        }
 
-        return view('pages/users/index', compact('all_departments'));
+        //Get Fuel Stations
+        $all_fuel_stations = [];
+        $fuel_stations_count = FuelStation::count();
+        if($fuel_stations_count > 0){
+            $get_fuel_stations = FuelStation::all();
+            $all_fuel_stations = $get_fuel_stations;
+        }
+
+        return view('pages/users/managers/index', compact('all_fuel_stations'));
     }
     
     public function edit(Request $request){
@@ -44,7 +55,7 @@ class UserController extends Controller
 
     }
 
-    public function create(Request $request){
+    public function create(UserRequest $request){
         try {
 
 
@@ -63,7 +74,7 @@ class UserController extends Controller
         }
     }
 
-    public function update(UserRequest $request, $id){
+    public function update(UserUpdateRequest $request, $id){
         try {
 
             $input = [];

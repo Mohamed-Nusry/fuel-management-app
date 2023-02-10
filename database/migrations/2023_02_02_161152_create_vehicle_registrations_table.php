@@ -15,6 +15,15 @@ return new class extends Migration
     {
         Schema::create('vehicle_registrations', function (Blueprint $table) {
             $table->id();
+            $table->string('reg_id')->nullable();
+            $table->integer('customer_id');
+            $table->integer('vehicle_id');
+            $table->string('vehicle_registration_number')->unique();
+            $table->string('chassis_no')->unique();
+            $table->double('total_quota')->default(0); //In liters
+            $table->double('available_quota')->default(0); //In liters
+            $table->integer('created_by')->default(1);
+            $table->integer('updated_by')->default(1);
             $table->timestamps();
         });
     }

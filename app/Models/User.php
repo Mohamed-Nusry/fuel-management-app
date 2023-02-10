@@ -19,7 +19,8 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name',
         'last_name',
-        'department_id',
+        'fuel_station_id',
+        'district_id',
         'user_type',
         'name',
         'email',
@@ -48,8 +49,12 @@ class User extends Authenticatable
     ];
 
 
-    public function department() {
-        return $this->belongsTo('App\Models\Department', 'department_id', 'id');
+    public function fuelStation() {
+        return $this->belongsTo('App\Models\FuelStation', 'fuel_station_id', 'id');
+    }
+
+    public function district() {
+        return $this->belongsTo('App\Models\District', 'district_id', 'id');
     }
 
     

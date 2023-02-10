@@ -9,34 +9,34 @@
         
         @if(Auth::user()->user_type != null)
             @if(Auth::user()->user_type == 1 || Auth::user()->user_type == 2)
-                <button class="btn btn-primary mt-2 btn-create" style="float:right">Add New User</button>
+                <button class="btn btn-primary mt-2 btn-create" style="float:right">Add New Fuel Station</button>
             @else
                 <i class="fas fa-question-circle mt-3 btn-help" style="float:right;  cursor:pointer;"></i>
-                <button disabled class="btn btn-primary mt-2 btn-create mr-2" style="float:right">Add New User</button>
+                <button disabled class="btn btn-primary mt-2 btn-create mr-2" style="float:right">Add New Fuel Station</button>
                 
             @endif
         @endif
-        <h2 style="padding:10px">User Management</h2>
+        <h2 style="padding:10px">Fuel Station Management</h2>
        
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Users List</h3>
+                        <h3 class="card-title">Fuel Stations List</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12">
-                                <table id="table-user" class="table table-bordered">
+                                <table id="table-fuelstation" class="table table-bordered">
                                     <thead class="thead-dark">
                                         <tr role="row">
                                             <th>No</th>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
-                                            <th>Email</th>
-                                            <th>Department</th>
-                                            <th>User Type</th>
+                                            <th>District</th>
+                                            <th>Code</th>
+                                            <th>Name</th>
+                                            <th>Available Quota</th>
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -51,70 +51,56 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade user-modal" tabindex="-1" role="dialog" aria-labelledby="user-modal" aria-hidden="true">
+    <div class="modal fade fuelstation-modal" tabindex="-1" role="dialog" aria-labelledby="fuelstation-modal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="fas fa-pencil-alt"></i> Create User</h5>
-                    <button type="button" onclick="$('.user-modal').modal('toggle');" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title"><i class="fas fa-pencil-alt"></i> Create Fuel Station</h5>
+                    <button type="button" onclick="$('.fuelstation-modal').modal('toggle');" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form name="user-form" id="user-form">
-                    <input id="user-id" type="hidden">
+                <form name="fuelstation-form" id="fuelstation-form">
+                    <input id="fuelstation-id" type="hidden">
                     <div class="modal-body">
+
                         <div class="form-group">
-                            <label for="first_name" class="col-form-label">First Name *</label>
-                            <input type="text" name="first_name" class="form-control" id="first_name" placeholder="First Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="last_name" class="col-form-label">Last Name *</label>
-                            <input type="text" name="last_name" class="form-control" id="last_name" placeholder="Last Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="name" class="col-form-label">Username *</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Username">
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="col-form-label">Email *</label>
-                            <input type="text" name="email" class="form-control" id="email" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                            <label for="department_id" class="col-form-label">Department</label>
-                            <select id="department_id" name="department_id" class="form-control">
-                                @if (count($all_departments) > 0)
-                                    @foreach ($all_departments as $department)
-                                        <option value="{{$department->id}}">{{$department->name}}</option>
+                            <label for="district_id" class="col-form-label">District</label>
+                            <select id="district_id" name="district_id" class="form-control">
+                                @if (count($all_districts) > 0)
+                                    @foreach ($all_districts as $district)
+                                        <option value="{{$district->id}}">{{$district->name}}</option>
                                     @endforeach
 
                                 @else
-                                    <option selected>No Departments</option>
+                                    <option selected>No Districts</option>
                                 @endif
                                 
-                                {{-- <option value="Running" {{ $job_account_detail->service_status=="Running" ? "selected" : ''}}>Running</option>
-                                <option value="Completed" {{ $job_account_detail->service_status=="Completed" ? "selected" : ''}}>Completed</option> --}}
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="user_type" class="col-form-label">User Type</label>
-                            <select id="user_type" name="user_type" class="form-control">
-                                <option value="1">Admin</option>
-                                <option value="2">Factory Head</option>
-                                <option value="3">Supervisor</option>
-                                <option value="4">Department Head</option>
-                                <option value="5">Employee</option>
-                                {{-- <option value="Running" {{ $job_account_detail->service_status=="Running" ? "selected" : ''}}>Running</option>
-                                <option value="Completed" {{ $job_account_detail->service_status=="Completed" ? "selected" : ''}}>Completed</option> --}}
-                            </select>
 
+                        <div class="form-group">
+                            <label for="code" class="col-form-label">Code *</label>
+                            <input type="text" name="code" class="form-control" id="code" placeholder="Code">
                         </div>
                         <div class="form-group">
-                            <label for="password" class="col-form-label">Password *</label>
-                            <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                            <label for="name" class="col-form-label">Fuel Station Name *</label>
+                            <input type="text" name="name" class="form-control" id="name" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="available_quota" class="col-form-label">Available Quota *</label>
+                            <input type="text" name="available_quota" class="form-control" id="available_quota" placeholder="Available Quota">
+                        </div>
+                        <div class="form-group">
+                            <label for="status" class="col-form-label">Status</label>
+                            <select id="status" name="status" class="form-control">
+                                <option value="1">Available</option>
+                                <option value="2">Unvailable</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" onclick="$('.user-modal').modal('toggle');" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" onclick="$('.fuelstation-modal').modal('toggle');" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <input type="submit" class="btn btn-primary btn-save" value="Save">
                     </div>
                 </form>
@@ -156,14 +142,14 @@
     @include('layouts.assets.js.datatables_js')
 
     <script>
-        tableUser();
+        tableFuelStation();
         /**
-         * load table user
+         * load table fuel station
          */
-        function tableUser() {
+        function tableFuelStation() {
             generateDataTable({
-                selector: $('#table-user'),
-                url: '{{ route('user.index') }}',
+                selector: $('#table-fuelstation'),
+                url: '{{ route('fuelstation.index') }}',
                 columns: [{
                     data: null,
                     sortable: false,
@@ -174,24 +160,24 @@
                     }
                 }, 
                 {
-                    data: 'first_name',
-                    name: 'first_name',
+                    data: 'district_id',
+                    name: 'district_id',
                 }, 
                 {
-                    data: 'last_name',
-                    name: 'last_name',
+                    data: 'code',
+                    name: 'code',
                 },
                 {
-                    data: 'email',
-                    name: 'email',
+                    data: 'name',
+                    name: 'name',
                 }, 
                 {
-                    data: 'department_id',
-                    name: 'department_id',
+                    data: 'available_quota',
+                    name: 'available_quota',
                 }, 
                 {
-                    data: 'user_type',
-                    name: 'user_type',
+                    data: 'status',
+                    name: 'status',
                 }, 
                 {
                     data: 'action',
@@ -208,34 +194,33 @@
 
         $(document).ready(function() {
              /**
-             * Create user
+             * Create fuelstation
              */
              $('.btn-create').on('click', function(event) {
                 event.preventDefault();
-                document.getElementById("user-form").reset();
+                document.getElementById("fuelstation-form").reset();
                 const id = null;
-                $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Create User`);
-                $('#user-id').val(id);
-                $('.user-modal').modal('toggle');
-                $('#password').attr("disabled", false);
-                $('#user_type').attr("disabled", false);
-                $('#department_id').attr("disabled", false);
+                $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Create Fuel Station`);
+                $('#fuelstation-id').val(id);
+                $('.fuelstation-modal').modal('toggle');
+                $('#status').attr("disabled", false);
+                $('#district_id').attr("disabled", false);
             });
 
 
             /**
-             * edit user
+             * edit fuelstation
              */
             /**
-             * edit user
+             * edit fuelstation
              */
-             $('#table-user').on('click', '.btn-edit', function(event) {
+             $('#table-fuelstation').on('click', '.btn-edit', function(event) {
                 event.preventDefault();
-                document.getElementById("user-form").reset();
+                document.getElementById("fuelstation-form").reset();
                 const id = $(this).data('id');
-                $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Edit User`);
-                $('#user-id').val(id);
-                const url = "user/edit/"+id;
+                $('.modal-title').html(`<i class="fas fa-pencil-alt"></i>  Edit FuelStation`);
+                $('#fuelstation-id').val(id);
+                const url = "fuelstation/edit/"+id;
 
                 let formData = {
                     id : id,
@@ -244,47 +229,41 @@
             
                 //Get Data
                 $.ajax({
-                    url: '{{ route('user.edit') }}',
+                    url: '{{ route('fuelstation.edit') }}',
                     type:'POST',
                     data: formData,
                     beforeSend: function () {
-                        $('#user-id').attr("disabled", true);
-                        $('#first_name').attr("disabled", true);
-                        $('#last_name').attr("disabled", true);
-                        $('#email').attr("disabled", true);
+                        $('#fuelstation-id').attr("disabled", true);
+                        $('#code').attr("disabled", true);
                         $('#name').attr("disabled", true);
-                        $('#password').attr("disabled", true);
-                        $('#user_type').attr("disabled", true);
-                        $('#department_id').attr("disabled", true);
+                        $('#available_quota').attr("disabled", true);
+                        $('#status').attr("disabled", true);
+                        $('#district_id').attr("disabled", true);
                     },
                     complete: function () {
-                        $('#user-id').attr("disabled", false);
-                        $('#first_name').attr("disabled", false);
-                        $('#last_name').attr("disabled", false);
-                        $('#email').attr("disabled", false);
+                        $('#fuelstation-id').attr("disabled", false);
+                        $('#code').attr("disabled", false);
                         $('#name').attr("disabled", false);
-                        $('#password').attr("disabled", true);
-                        $('#user_type').attr("disabled", true);
-                        $('#department_id').attr("disabled", true);
+                        $('#available_quota').attr("disabled", false);
+                        $('#status').attr("disabled", true);
+                        $('#district_id').attr("disabled", true);
                     },
                     success: function (res) {
                         if(res.status == 200) {  
                            if(res.data){
-                            $('#user-id').val(res.data.id);
-                            $('#first_name').val(res.data.first_name);
-                            $('#last_name').val(res.data.last_name);
-                            $('#email').val(res.data.email);
+                            $('#fuelstation-id').val(res.data.id);
+                            $('#code').val(res.data.code);
                             $('#name').val(res.data.name);
-                            $('#user_type').val('');
-                            $('#department_id').val('');
-                            $('#password').val('********');
+                            $('#available_quota').val(res.data.available_quota);
+                            $('#status').val(res.data.status);
+                            $('#district_id').val(res.data.district_id);
                            }
                         }
                     }
                 });
 
 
-                $('.user-modal').modal('toggle');
+                $('.fuelstation-modal').modal('toggle');
             });
 
 
@@ -292,10 +271,10 @@
             /**
              * Submit modal
              */
-            $('#user-form').submit(function(event){
+            $('#fuelstation-form').submit(function(event){
                 event.preventDefault();
 
-                const formId = $('#user-id').val();
+                const formId = $('#fuelstation-id').val();
 
                 if(!formId || formId == null){
 
@@ -304,7 +283,7 @@
                     formData.append('_method', 'POST');
                     formData.append('_token', '{{ csrf_token() }}');
                     $.ajax({
-                        url: '{{ route('user.create') }}',
+                        url: '{{ route('fuelstation.create') }}',
                         data: formData,
                         type:'POST',
                         dataType: 'json',
@@ -321,8 +300,8 @@
                         success: function (data) {
                             if(data.status == 200) {  
                                 swalSuccess('', data.nessage);
-                                tableUser();
-                                $('.user-modal').modal('toggle');
+                                tableFuelStation();
+                                $('.fuelstation-modal').modal('toggle');
                             }
                         }
                     });
@@ -334,7 +313,7 @@
                     formData.append('_method', 'PUT');
                     formData.append('_token', '{{ csrf_token() }}');
                     $.ajax({
-                        url:"{{ url('user/update') }}" + '/' + formId,
+                        url:"{{ url('fuelstation/update') }}" + '/' + formId,
                         data: formData,
                         type:'POST',
                         dataType: 'json',
@@ -351,8 +330,8 @@
                         success: function (data) {
                             if(data.status == 200) {
                                 swalSuccess('', data.nessage);
-                                tableUser();
-                                $('.user-modal').modal('toggle');
+                                tableFuelStation();
+                                $('.fuelstation-modal').modal('toggle');
                             }
                         }
                     });
@@ -364,20 +343,20 @@
             })
 
             /**
-             * Delete user
+             * Delete fuelstation
              */
-            $('#table-user').on('click', '.btn-delete', function(event){
+            $('#table-fuelstation').on('click', '.btn-delete', function(event){
                 event.preventDefault();
                 const id       = $(this).data('id');
                 const name     = $(this).data('name');
                 const formData = new FormData();
-                const url      = "{{ route('user.delete', ['id' => ':id']) }}";
+                const url      = "{{ route('fuelstation.delete', ['id' => ':id']) }}";
                 formData.append('id', id);
                 formData.append('name', name);
                 formData.append('_method', 'DELETE');
                 formData.append('_token', '{{ csrf_token() }}');
                 swalConfirm({
-                    title: 'Delete user?',
+                    title: 'Delete fuelstation?',
                     confirm: 'Delete!',
                     cancel: 'Cancel',
                     icon: 'question',
@@ -389,7 +368,7 @@
                             processData: false,
                             contentType: false,
                             success: function(result) {
-                                tableUser();
+                                tableFuelStation();
                                 swalSuccess('',result.message);
                             }
                         })

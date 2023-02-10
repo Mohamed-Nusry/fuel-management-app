@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->integer('customer_id');
+            $table->integer('fuel_request_id');
+            $table->double('amount');
+            $table->integer('status')->default(1); //1 = Pending, 2 = Accepted
+            $table->integer('created_by')->default(1);
+            $table->integer('updated_by')->default(1);
             $table->timestamps();
         });
     }

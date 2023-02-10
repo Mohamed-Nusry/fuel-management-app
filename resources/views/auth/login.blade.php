@@ -35,7 +35,7 @@
 <body class="hold-transition login-page fw-bold mb-2 text-uppercase">
 <div class="login-box">
     <div class="login-logo">
-        <p>Lockhood System</p>
+        <p>FuelIn</p>
     </div>
    
 
@@ -49,7 +49,7 @@
             <div class="container py-5 h-100">
                 
             
-            <p class="login-box-msg text-white-50 mb-3">Sign in to start your session</p>
+            <p class="login-box-msg text-white-50 mb-3">Admin Login</p>
 
             <form method="post" action="{{ url('/login') }}">
                 @csrf

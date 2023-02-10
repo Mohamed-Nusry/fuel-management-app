@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->nullable();
+            $table->string('name');
+            $table->double('standard_quota')->default(0); //In liters
+            $table->integer('created_by')->default(1);
+            $table->integer('updated_by')->default(1);
             $table->timestamps();
         });
     }

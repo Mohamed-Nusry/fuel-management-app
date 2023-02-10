@@ -55,34 +55,18 @@
                          class="user-image img-circle elevation-2" alt="User Image"> --}}
                          @if(Auth::user()->user_type != null)
                             @if(Auth::user()->user_type == 1)    
-                                <span class="d-none d-md-inline">{{ Auth::user()->name }}  (Role - Admin)</span>
+                                <span class="d-none d-md-inline">{{ Auth::user()->name }}  (Role - Head)</span>
                             @else
 
                                 @if(Auth::user()->user_type == 2)    
-                                    <span class="d-none d-md-inline">{{ Auth::user()->name }}  (Role - Factory Head)</span>
+                                    <span class="d-none d-md-inline">{{ Auth::user()->name }}  (Role - Manager)</span>
                                 @else
 
                                 
                                     @if(Auth::user()->user_type == 3)    
-                                        <span class="d-none d-md-inline">{{ Auth::user()->name }}  (Role - Supervisor)</span>
-                                    @else
-
-                                        @if(Auth::user()->user_type == 4)    
-                                            <span class="d-none d-md-inline">{{ Auth::user()->name }}  (Role - Department Head)</span>
-                                        @else
-
-                                            @if(Auth::user()->user_type == 5)    
-                                                <span class="d-none d-md-inline">{{ Auth::user()->name }}  (Role - Employee)</span>
-                                            @else
-                                                
-                                                <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
-                                                
-                                            @endif
-                                            
-
-                                        @endif
-                                        
-
+                                        <span class="d-none d-md-inline">{{ Auth::user()->name }}  (Role - Customer)</span>
+                                    @else   
+                                        <span class="d-none d-md-inline">{{ Auth::user()->name }}</span>
                                     @endif
                                     
 
@@ -136,7 +120,7 @@
     <!-- Main Footer -->
     <footer class="main-footer">
         <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.0.5
+            <b>Version</b> 1.0.5
         </div>
         <strong>Copyright &copy; 2023 FuelIn.</strong> All rights reserved.
     </footer>
