@@ -134,10 +134,10 @@ class FuelRequestController extends Controller
                     $get_token_details->save();
 
                     //Reduce Fuel From Customer
-                    $get_vehicle_registration_count = VehicleRegistration::where('id', $get_req_details->customer_id)->count();
+                    $get_vehicle_registration_count = VehicleRegistration::where('id', $get_req_details->vehicle_registration_id)->count();
 
                     if($get_vehicle_registration_count > 0){
-                        $get_vehicle_registration = VehicleRegistration::where('id', $get_req_details->customer_id)->first();
+                        $get_vehicle_registration = VehicleRegistration::where('id', $get_req_details->vehicle_registration_id)->first();
                         $get_vehicle_registration->available_quota = $get_vehicle_registration->available_quota - $get_req_details->requested_quota;
                         $get_vehicle_registration->save();
                     }

@@ -19,7 +19,7 @@ class FuelTokenService {
             ->addColumn('action', function($query){
 
                 if(Auth::user()->user_type == 1 || Auth::user()->user_type == 2){
-                    if($query->status ==  1){
+                    if($query->status ==  1 || $query->status == 2){
                         $button = '&nbsp;<button type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-success btn-sm btn-complete"> Complete</button>';
                         $button .= '&nbsp;<button type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-danger btn-sm btn-reject"> Reject</button>';
                     }else{
@@ -27,7 +27,7 @@ class FuelTokenService {
                         $button .= '&nbsp;<button disabled type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-danger btn-sm btn-reject"> Reject</button>';
                     }
                 }else{
-                    if($query->status ==  1){
+                    if($query->status ==  1 || $query->status == 2){
                         $button = '&nbsp;<button disabled type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-success btn-sm btn-complete"> Complete</button>';
                         $button .= '&nbsp;<button disabled type="button" data-id="'.$query->id.'" data-name="'.$query->name.'" class="btn btn-danger btn-sm btn-reject"> Reject</button>';
                     }else{

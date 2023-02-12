@@ -26,7 +26,6 @@
                                             <th>Reference</th>
                                             <th>Customer</th>
                                             <th>Vehicle</th>
-                                            <th>Email</th>
                                             <th>Vehicle Registration</th>
                                             <th>Chasis No</th>
                                             <th>Total Quota (Liters)</th>
@@ -79,10 +78,6 @@
                 {
                     data: 'vehicle_id',
                     name: 'vehicle_id',
-                }, 
-                {
-                    data: 'email',
-                    name: 'email',
                 }, 
                 {
                     data: 'vehicle_registration_number',
