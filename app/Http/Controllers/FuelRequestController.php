@@ -13,6 +13,7 @@ use App\Services\FuelRequestService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class FuelRequestController extends Controller
 {
@@ -108,6 +109,24 @@ class FuelRequestController extends Controller
 
     public function changeStatus(Request $request){
 
+      
+           
+        // $details = [
+        //     'reference' => 'REF0010',
+        //     'customer_name' => 'Admin',
+        //     'vehicle_registration' => 'VMA-0001',
+        //     'chasis_no' => 'ABB-O001-001',
+        //     'fuel_station' => 'Colombo',
+        //     'requested_quota' => '5',
+        //     'expected_date_time' => '2023/03/25',
+        //     'recheduled_date_time' => null
+        // ];
+        
+        // Mail::to('john@gmail.com')->send(new \App\Mail\ConfirmationMail($details));
+        
+        // dd("Email is Sent.");
+        
+
         try {
             $input = [];
             $input = $request->all();
@@ -154,6 +173,9 @@ class FuelRequestController extends Controller
 
 
                 }
+
+                //Send Confirmation Email
+
             }
            
             if($request->status == 2 || $request->status == 5){
