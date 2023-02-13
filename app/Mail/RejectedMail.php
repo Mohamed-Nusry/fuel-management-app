@@ -31,6 +31,6 @@ class RejectedMail extends Mailable
     public function build()
     {
         return $this->subject('Rejection Mail')
-        ->view('emails.confirmation');
+        ->view('emails.reject');
     }
 }

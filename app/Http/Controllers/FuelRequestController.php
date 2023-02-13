@@ -8,6 +8,7 @@ use App\Http\Requests\FuelRequestUpdateRequest;
 use App\Models\FuelRequest;
 use App\Models\FuelStation;
 use App\Models\FuelToken;
+use App\Models\User;
 use App\Models\VehicleRegistration;
 use App\Services\FuelRequestService;
 use Illuminate\Http\Request;
@@ -109,24 +110,6 @@ class FuelRequestController extends Controller
 
     public function changeStatus(Request $request){
 
-      
-           
-        // $details = [
-        //     'reference' => 'REF0010',
-        //     'customer_name' => 'Admin',
-        //     'vehicle_registration' => 'VMA-0001',
-        //     'chasis_no' => 'ABB-O001-001',
-        //     'fuel_station' => 'Colombo',
-        //     'requested_quota' => '5',
-        //     'expected_date_time' => '2023/03/25',
-        //     'recheduled_date_time' => null
-        // ];
-        
-        // Mail::to('john@gmail.com')->send(new \App\Mail\ConfirmationMail($details));
-        
-        // dd("Email is Sent.");
-        
-
         try {
             $input = [];
             $input = $request->all();
@@ -153,29 +136,120 @@ class FuelRequestController extends Controller
                     $get_token_details->save();
 
                     //Reduce Fuel From Customer
+                    $vehicle_registration_no = null;
+                    $chasis_no = null;
                     $get_vehicle_registration_count = VehicleRegistration::where('id', $get_req_details->vehicle_registration_id)->count();
 
                     if($get_vehicle_registration_count > 0){
                         $get_vehicle_registration = VehicleRegistration::where('id', $get_req_details->vehicle_registration_id)->first();
                         $get_vehicle_registration->available_quota = $get_vehicle_registration->available_quota - $get_req_details->requested_quota;
                         $get_vehicle_registration->save();
+
+                        $vehicle_registration_no = $get_vehicle_registration->vehicle_registration_number;
+                        $chasis_no = $get_vehicle_registration->chassis_no;
                     }
 
                      //Reduce Fuel From Station
+                     $fuel_station_name = null;
                      $get_fuel_station_count = FuelStation::where('id', $get_req_details->fuel_station_id)->count();
 
                      if($get_fuel_station_count > 0){
                          $get_fuel_station = FuelStation::where('id', $get_req_details->fuel_station_id)->first();
                          $get_fuel_station->available_quota = $get_fuel_station->available_quota - $get_req_details->requested_quota;
                          $get_fuel_station->save();
+
+                         $fuel_station_name = $get_fuel_station->name;
                      }
 
 
 
                 }
 
-                //Send Confirmation Email
+              
+                //Get Customer Data
+                $customer_name = null;
+                $customer_email = "headoffice@gmail.com";
+                $customer_data_count = User::where('id', $get_req_details->customer_id)->count();
 
+                if($customer_data_count > 0){
+                    $customer_data = User::where('id', $get_req_details->customer_id)->first();
+                    $customer_name = $customer_data->first_name.' '.$customer_data->last_name;
+                    $customer_email = $customer_data->email;
+                }
+
+
+                $details = [
+                    'reference' => $get_req_details->reference,
+                    'customer_name' => $customer_name,
+                    'vehicle_registration' => $vehicle_registration_no != null ? $vehicle_registration_no : 'N/A',
+                    'chasis_no' => $chasis_no != null ? $chasis_no : 'N/A',
+                    'fuel_station' => $fuel_station_name != null ? $fuel_station_name : 'N/A',
+                    'requested_quota' => $get_req_details->requested_quota,
+                    'expected_date_time' => $get_req_details->expected_date_time,
+                    'recheduled_date_time' => $get_req_details->rescheduled_date_time != null ? $get_req_details->rescheduled_date_time : null
+                ];
+                
+                if($request->status == 2){
+                    //Send Confirmation Email
+                    Mail::to($customer_email)->send(new \App\Mail\ConfirmationMail($details));
+                }else{
+                    if($request->status == 5){
+                        //Send Recheduled Email
+                        Mail::to($customer_email)->send(new \App\Mail\ReschduleMail($details));
+                    }
+                }
+              
+
+            }else{
+                //Request Rejection
+                if($update_status && $request->status == 3){
+
+                    //Get Request Details
+                    $get_req_details = FuelRequest::where('id', $request->id)->first();
+
+                    //Get Customer Data
+                    $customer_name = null;
+                    $customer_email = "headoffice@gmail.com";
+                    $customer_data_count = User::where('id', $get_req_details->customer_id)->count();
+
+                    if($customer_data_count > 0){
+                        $customer_data = User::where('id', $get_req_details->customer_id)->first();
+                        $customer_name = $customer_data->first_name.' '.$customer_data->last_name;
+                        $customer_email = $customer_data->email;
+                    }
+
+                    $vehicle_registration_no = null;
+                    $chasis_no = null;
+                    $get_vehicle_registration_count = VehicleRegistration::where('id', $get_req_details->vehicle_registration_id)->count();
+
+                    if($get_vehicle_registration_count > 0){
+                        $get_vehicle_registration = VehicleRegistration::where('id', $get_req_details->vehicle_registration_id)->first();
+                        $vehicle_registration_no = $get_vehicle_registration->vehicle_registration_number;
+                        $chasis_no = $get_vehicle_registration->chassis_no;
+                    }
+
+                    $fuel_station_name = null;
+                    $get_fuel_station_count = FuelStation::where('id', $get_req_details->fuel_station_id)->count();
+
+                    if($get_fuel_station_count > 0){
+                        $get_fuel_station = FuelStation::where('id', $get_req_details->fuel_station_id)->first();
+                        $fuel_station_name = $get_fuel_station->name;
+                    }
+
+                    $details = [
+                        'reference' => $get_req_details->reference,
+                        'customer_name' => $customer_name,
+                        'vehicle_registration' => $vehicle_registration_no != null ? $vehicle_registration_no : 'N/A',
+                        'chasis_no' => $chasis_no != null ? $chasis_no : 'N/A',
+                        'fuel_station' => $fuel_station_name != null ? $fuel_station_name : 'N/A',
+                        'requested_quota' => $get_req_details->requested_quota,
+                        'expected_date_time' => $get_req_details->expected_date_time,
+                        'recheduled_date_time' => $get_req_details->rescheduled_date_time != null ? $get_req_details->rescheduled_date_time : null
+                    ];
+                    
+                    //Send Rejection Email
+                    Mail::to($customer_email)->send(new \App\Mail\RejectedMail($details));
+                }
             }
            
             if($request->status == 2 || $request->status == 5){
