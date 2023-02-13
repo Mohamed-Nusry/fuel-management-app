@@ -38,7 +38,7 @@
     </div>
 
     <div class="card">
-        <div class="card-body login-card-body">
+        <div class="card-body login-card-body bg-navy rounded shadow-lg">
             <p class="login-box-msg">You are only one step a way from your new password, recover your password now.</p>
 
             <form action="{{ route('password.update') }}" method="POST">
@@ -50,7 +50,7 @@
                     <input type="email"
                            name="email"
                            value="{{ $email ?? old('email') }}"
-                           class="form-control @error('email') is-invalid @enderror"
+                           class="form-control bg-navy @error('email') is-invalid @enderror"
                            placeholder="Email">
                     <div class="input-group-append">
                         <div class="input-group-text"><span class="fas fa-envelope"></span></div>

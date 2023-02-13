@@ -10,14 +10,14 @@
         <main class="content">
             <div class="container-fluid p-5 ">
                 <h1 class="login-box-msg">Vehicle Registration</h1>
-                <div class="card p-2">
+                <div class="card w-auto p-5 bg-navy rounded shadow-lg ">
                     <div class="card-body ">
                       
                         <form id="vehicleregistration-form" name="vehicleregistration-form" method="post">
                             @csrf
 
                             <div class="input-group mb-3">
-                                <select  class="form-control @error('vehicle_id') is-invalid @enderror" id="vehicle_id" name="vehicle_id" >
+                                <select  class="form-control form-control-border bg-navy @error('vehicle_id') is-invalid @enderror" id="vehicle_id" name="vehicle_id" >
                                     <option value="">Select Vehicle Type</option>
                                     @if (count($all_vehicles) > 0)
                                         @foreach ($all_vehicles as $vehicle)
@@ -41,7 +41,7 @@
                             <div class="input-group mb-3">
                                 <input type="text"
                                        name="vehicle_registration_number"
-                                       class="form-control @error('vehicle_registration_number') is-invalid @enderror"
+                                       class="form-control form-control-border bg-navy @error('vehicle_registration_number') is-invalid @enderror"
                                        value="{{ old('vehicle_registration_number') }}"
                                        placeholder="Vehicle Registration Number">
                                
@@ -53,7 +53,7 @@
                             <div class="input-group mb-3">
                                 <input type="text"
                                        name="chassis_no"
-                                       class="form-control @error('chassis_no') is-invalid @enderror"
+                                       class="form-control form-control-border bg-navy @error('chassis_no') is-invalid @enderror"
                                        value="{{ old('chassis_no') }}"
                                        placeholder="Chassis Number">
                                
@@ -68,7 +68,7 @@
 
                                 <!-- /.col -->
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary btn-block">Register Vehicle</button>
+                                    <button type="submit" class="btn btn-outline-primary btn-block">Register Vehicle</button>
                                 </div>
                                 <!-- /.col -->
                             </div>
