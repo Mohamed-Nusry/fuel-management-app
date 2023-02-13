@@ -19,6 +19,10 @@ class FuelRequest extends Authenticatable
 
     protected $table = 'fuel_requests';
 
+    // protected $dates = [
+    //     'expected_date_time',
+    // ];
+
     protected $fillable = [
         'customer_id',
         'fuel_station_id',

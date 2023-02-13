@@ -92,7 +92,8 @@
                             </div>
             
                             <div class="input-group mb-3">
-                                <input type="datetime-local"
+                                <input type="text"
+                                       id="datetimefield"
                                        name="expected_date_time"
                                        class="form-control @error('expected_date_time') is-invalid @enderror"
                                        value="{{ old('expected_date_time') }}"
@@ -205,9 +206,10 @@
 	<script>
 
         $(document).ready(function(){
-            $("#datetime1").focus( function() {
+            $("#datetimefield").focus( function() {
                 $(this).attr({type: 'datetime-local'});
             });
+        });
 
         tableFuelRequest();
         tableFuelToken();
@@ -325,10 +327,11 @@
             /**
              * Submit modal
             */
-                $('#fuelrequest-form').submit(function(event){
+            $('#fuelrequest-form').submit(function(event){
                 event.preventDefault();
 
-                var remainingQuota = "{!! addcslashes($my_vehicle->available_quota, '"') !!}";
+                var remainingQuota = {!! addcslashes($my_vehicle->available_quota, '"') !!}
+             
                 var requestedQuota = $('#requested_quota').val();
 
                 // console.log(remainingQuota);
@@ -421,6 +424,7 @@
                     }
                 })
             }
+            
 	
 		});
 	</script>

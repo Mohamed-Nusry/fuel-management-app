@@ -75,7 +75,7 @@ class FuelRequestService {
                                             return "Rejected by customer";
                                         }else{
                                             if($query->status == 7){
-                                                return "Completed";
+                                                return "Expired";
                                             }else{
                                                 return "N/A";
                                             }
@@ -121,7 +121,7 @@ class FuelRequestService {
                                             return "Rejected by customer";
                                         }else{
                                             if($query->status == 7){
-                                                return "Completed";
+                                                return "Expired";
                                             }else{
                                                 return "N/A";
                                             }
