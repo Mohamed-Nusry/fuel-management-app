@@ -8,8 +8,11 @@
 <div class="wrapper">
     <div class="main">
         <main class="content">
-            <div class="container-fluid p-5 ">
+            <div class="container p-5 ">
                 <h1 class="login-box-msg">Vehicle Registration</h1>
+                
+                <hr>
+                <br>
                 <div class="card w-auto p-5 bg-navy rounded shadow-lg ">
                     <div class="card-body ">
                       
@@ -68,7 +71,7 @@
 
                                 <!-- /.col -->
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-outline-primary btn-block">Register Vehicle</button>
+                                    <button type="submit" class="btn btn-primary btn-block">Register Vehicle</button>
                                 </div>
                                 <!-- /.col -->
                             </div>

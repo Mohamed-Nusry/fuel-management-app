@@ -44,6 +44,7 @@ class UserSeeder extends Seeder
                     'email' => "john@gmail.com",
                     'password' => Hash::make('john@123'),
                     'user_type' => 3,
+                    'district_id' => 1,
                     'fuel_station_id' => null,
                     'created_at' => "2023-02-04 11:33:48",
                 ],

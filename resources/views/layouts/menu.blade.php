@@ -1,11 +1,4 @@
-<li class="nav-item">
-    <a href="{{ url('home') }}" class="nav-link {{ request()->is('home') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-home"></i>
-        <p>Home</p>
-    </a>
-</li>
-
-<li class="nav-item {{ request()->is('*user*') ? 'menu-opening menu-open' : '' }}">
+<li style="color:#fff !important" class="nav-item {{ request()->is('*user*') ? 'menu-opening menu-open' : '' }}">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-user"></i>
         <p>
@@ -37,7 +30,7 @@
 
 <li class="nav-item {{ request()->is('*vehiclemanagement*') ? 'menu-opening menu-open' : '' }}">
     <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-suitcase"></i>
+        <i class="nav-icon fas fa-car"></i>
         <p>
             Vehicle Registrations
             <i class="right fas fa-angle-left"></i>
@@ -86,7 +79,7 @@
 
 <li class="nav-item {{ request()->is('*schedule*') ? 'menu-opening menu-open' : '' }}">
     <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-suitcase"></i>
+        <i class="nav-icon fas fa-clock"></i>
         <p>
             Schedules
             <i class="right fas fa-angle-left"></i>
@@ -107,7 +100,7 @@
 
 <li class="nav-item {{ request()->is('*fuelrequest*') ? 'menu-opening menu-open' : '' }}">
     <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-suitcase"></i>
+        <i class="nav-icon fas fa-envelope"></i>
         <p>
             Fuel Requests
             <i class="right fas fa-angle-left"></i>

@@ -9,7 +9,7 @@
 <div class="wrapper">
     <div class="main">
         <main class="content">
-            <div class="container-fluid p-5 ">
+            <div class="container p-5 ">
 
                 <h1 class="h1 mb-3 text-center"><strong>{{$my_vehicle->vehicle ? $my_vehicle->vehicle->name : "Vehicle"}} - {{$my_vehicle->vehicle_registration_number}}</strong> </h1>
                 <br>

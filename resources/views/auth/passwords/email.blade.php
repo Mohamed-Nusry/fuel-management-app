@@ -34,7 +34,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="{{ url('/home') }}"><b>{{ config('app.name') }}</b></a>
+        <a href="{{ url('/home') }}"><b><p>FuelIn</p></b></a>
     </div>
 
     <!-- /.login-logo -->
@@ -73,7 +73,7 @@
             </form>
 
             <p class="mt-3 mb-1">
-                <a href="{{ route("login") }}">Login</a>
+                <a class="btn btn-secondary" href="{{ route("login") }}">Login</a>
             </p>
            
         </div>
