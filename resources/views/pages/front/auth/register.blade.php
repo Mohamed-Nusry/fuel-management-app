@@ -37,7 +37,7 @@
     </div>
 
     <div class="card">
-        <div class="card-body register-card-body">
+        <div class="card-body register-card-body bg-navy rounded shadow-lg" >
             <p class="login-box-msg">Customer Registration</p>
 
             <form method="post" action="{{ route('front.register.create') }}">
@@ -46,7 +46,7 @@
                 <div class="input-group mb-3">
                     <input type="text"
                            name="first_name"
-                           class="form-control @error('first_name') is-invalid @enderror"
+                           class="form-control form-control-border bg-navy @error('first_name') is-invalid @enderror"
                            value="{{ old('first_name') }}"
                            placeholder="First name">
                     <div class="input-group-append">
@@ -60,7 +60,7 @@
                 <div class="input-group mb-3">
                     <input type="text"
                            name="last_name"
-                           class="form-control @error('last_name') is-invalid @enderror"
+                           class="form-control bg-navy @error('last_name') is-invalid @enderror"
                            value="{{ old('last_name') }}"
                            placeholder="Last name">
                     <div class="input-group-append">
@@ -74,7 +74,7 @@
                 <div class="input-group mb-3">
                     <input type="text"
                            name="name"
-                           class="form-control @error('name') is-invalid @enderror"
+                           class="form-control bg-navy @error('name') is-invalid @enderror"
                            value="{{ old('name') }}"
                            placeholder="Username">
                     <div class="input-group-append">
@@ -89,7 +89,7 @@
                     <input type="email"
                            name="email"
                            value="{{ old('email') }}"
-                           class="form-control @error('email') is-invalid @enderror"
+                           class="form-control bg-navy @error('email') is-invalid @enderror"
                            placeholder="Email">
                     <div class="input-group-append">
                         <div class="input-group-text"><span class="fas fa-envelope"></span></div>
@@ -102,7 +102,7 @@
                 <div class="input-group mb-3">
                     <input type="password"
                            name="password"
-                           class="form-control @error('password') is-invalid @enderror"
+                           class="form-control bg-navy @error('password') is-invalid @enderror"
                            placeholder="Password">
                     <div class="input-group-append">
                         <div class="input-group-text"><span class="fas fa-lock"></span></div>
@@ -115,15 +115,15 @@
                 <div class="input-group mb-3">
                     <input type="password"
                            name="password_confirmation"
-                           class="form-control"
+                           class="form-control bg-navy"
                            placeholder="Retype password">
-                    <div class="input-group-append">
+                    <div class="input-group-append ">
                         <div class="input-group-text"><span class="fas fa-lock"></span></div>
                     </div>
                 </div>
 
                 <div class="input-group mb-3">
-                    <select  class="form-control @error('district_id') is-invalid @enderror" id="district_id" name="district_id" class="form-control">
+                    <select  class="form-control  bg-navy @error('district_id') is-invalid @enderror" id="district_id" name="district_id" class="form-control">
                         <option>Select District</option>
                         @if (count($all_districts) > 0)
                             @foreach ($all_districts as $district)
@@ -150,7 +150,7 @@
 
                     <!-- /.col -->
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        <button type="submit" class="btn btn-outline-success btn-block">Register</button>
                     </div>
                     <!-- /.col -->
                 </div>
