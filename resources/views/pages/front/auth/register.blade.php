@@ -33,7 +33,7 @@
 <body class="hold-transition register-page">
 <div class="register-box">
     <div class="register-logo">
-        <a href="{{ url('/home') }}"><b>{{ config('app.name') }}</b></a>
+        <a href="{{ url('/home') }}"><b><p>FuelIn</p></b></a>
     </div>
 
     <div class="card">
@@ -150,7 +150,7 @@
 
                     <!-- /.col -->
                     <div class="col-12">
-                        <button type="submit" class="btn btn-outline-success btn-block">Register</button>
+                        <button type="submit" class="btn btn-success btn-block">Register</button>
                     </div>
                     <!-- /.col -->
                 </div>

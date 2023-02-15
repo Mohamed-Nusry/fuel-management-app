@@ -9,7 +9,7 @@
 <div class="wrapper">
     <div class="main">
         <main class="content">
-            <div class="container-fluid p-5 ">
+            <div class="container p-5 ">
 
                 <h1 class="h1 mb-3 text-center"><strong>{{$my_vehicle->vehicle ? $my_vehicle->vehicle->name : "Vehicle"}} - {{$my_vehicle->vehicle_registration_number}}</strong> </h1>
                 <br>
@@ -80,6 +80,7 @@
             
                             <div class="input-group mb-3">
                                 <input type="number"
+                                       id="requested_quota"
                                        name="requested_quota"
                                        class="form-control @error('requested_quota') is-invalid @enderror"
                                        value="{{ old('requested_quota') }}"
@@ -91,11 +92,12 @@
                             </div>
             
                             <div class="input-group mb-3">
-                                <input type="datetime-local"
+                                <input type="text"
+                                       id="datetimefield"
                                        name="expected_date_time"
                                        class="form-control @error('expected_date_time') is-invalid @enderror"
                                        value="{{ old('expected_date_time') }}"
-                                       placeholder="Chassis Number">
+                                       placeholder="Expected Date And Time">
                                
                                 @error('expected_date_time')
                                 <span class="error invalid-feedback">{{ $message }}</span>
@@ -202,6 +204,12 @@
 @include('layouts.assets.js.datatables_js')
 
 	<script>
+
+        $(document).ready(function(){
+            $("#datetimefield").focus( function() {
+                $(this).attr({type: 'datetime-local'});
+            });
+        });
 
         tableFuelRequest();
         tableFuelToken();
@@ -319,43 +327,104 @@
             /**
              * Submit modal
             */
-                $('#fuelrequest-form').submit(function(event){
+            $('#fuelrequest-form').submit(function(event){
                 event.preventDefault();
 
-                //Create
-                const formData = new FormData(this);
-                formData.append('_method', 'POST');
-                formData.append('_token', '{{ csrf_token() }}');
-                $.ajax({
-                    url: '{{ route('fuelrequest.create') }}',
-                    data: formData,
-                    type:'POST',
-                    dataType: 'json',
-                    contentType: false,
-                    processData: false,
-                    beforeSend: function () {
-                        $('.btn-save').attr("disabled", true);
-                        $('.btn-save').text('Please wait......');
-                    },
-                    complete: function () {
-                        $('.btn-save').attr("disabled", false);
-                        $('.btn-save').text('Successfully Created');
-                    },
-                    success: function (data) {
-                        if(data.status == 200) {  
-                            tableFuelRequest();
-                            tableFuelToken();
-                            swalSuccess('', data.nessage);
-                            //window.location.href = "/";
-                        }
-                    }
-                });
+                var remainingQuota = {!! addcslashes($my_vehicle->available_quota, '"') !!}
+             
+                var requestedQuota = $('#requested_quota').val();
 
+                // console.log(remainingQuota);
+               
+
+                if(remainingQuota && requestedQuota){
+                    if(requestedQuota > remainingQuota){
+                        swalError('', 'Cannot request quota more than remaining amount');
+                    }else{
+
+                        //Create
+                        const formData = new FormData(this);
+                        formData.append('_method', 'POST');
+                        formData.append('_token', '{{ csrf_token() }}');
+                        $.ajax({
+                            url: '{{ route('fuelrequest.create') }}',
+                            data: formData,
+                            type:'POST',
+                            dataType: 'json',
+                            contentType: false,
+                            processData: false,
+                            beforeSend: function () {
+                                $('.btn-save').attr("disabled", true);
+                                $('.btn-save').text('Please wait......');
+                            },
+                            complete: function () {
+                                $('.btn-save').attr("disabled", false);
+                                $('.btn-save').text('Successfully Created');
+                            },
+                            success: function (data) {
+                                if(data.status == 200) {  
+                                    tableFuelRequest();
+                                    tableFuelToken();
+                                    swalSuccess('', data.nessage);
+                                    //window.location.href = "/";
+                                }
+                            }
+                        });
+
+
+                    }
+                }else{
+                    swalError('', 'Please Fill All The Fields');
+                }
+
+                
                 
 
                 
                 return false;
             })
+
+
+             //On Mark as collect button click
+            $('#table-fueltoken').on('click', '.btn-collect', function(event){
+                event.preventDefault();
+                const id       = $(this).data('id');
+                const name     = $(this).data('name');
+                const status     = 2;
+
+                changeStatus(id, name, status)
+                
+            })
+
+            //Change Status
+            function changeStatus(id, name, status){
+                const formData = new FormData();
+                formData.append('id', id);
+                formData.append('name', name);
+                formData.append('status', status);
+                formData.append('_method', 'POST');
+                formData.append('_token', '{{ csrf_token() }}');
+                swalConfirm({
+                    title: 'Change Status?',
+                    confirm: 'Proceed',
+                    cancel: 'Cancel',
+                    icon: 'question',
+                    complete: (result) => {
+                        $.ajax({
+                            url: '{{ route('fueltoken.status') }}',
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function(result) {
+                                tableFuelToken();
+                                swalSuccess('',result.message);
+                            }
+                        })
+                    }
+                })
+            }
+            
 	
 		});
 	</script>

@@ -40,13 +40,18 @@
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
     <!-- Main Header -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <nav class="main-header navbar navbar-expand navbar-dark navbar-light">
+
+        <ul class="navbar-nav ml-left" style="color:#fff">
+            <img width="35px" src="{{ asset('image/fuel-icon.png') }}"
+            class="user-image  elevation-2" alt="User Image">
+            <h4 class="mt-1 ml-2">FuelIn App</h4>
+        </ul>
 
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                    {{-- <img src="{{ asset('image/logo.png') }}"
-                         class="user-image img-circle elevation-2" alt="User Image"> --}}
+                  
                          @if(Auth::user()->user_type != null)
                             @if(Auth::user()->user_type == 1)    
                                 <span class="d-none d-md-inline">{{ Auth::user()->name }}  (Role - Head)</span>

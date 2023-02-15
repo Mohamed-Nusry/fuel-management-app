@@ -23,7 +23,7 @@ return new class extends Migration
             $table->double('requested_quota')->default(0); //In liters
             $table->dateTime('expected_date_time');
             $table->dateTime('rescheduled_date_time')->nullable();
-            $table->integer('status')->default(1); //1 = Pending, 2 = Accepted, 3 = Rejected due to customer issue / fuel issue, 5 = Rescheduled, 6 = Rejected by customer
+            $table->integer('status')->default(1); //1 = Pending, 2 = Accepted, 3 = Rejected, 5 = Rescheduled, 6 = Rejected by customer, 7 = Expired
             $table->integer('created_by')->default(1);
             $table->integer('updated_by')->default(1);
             $table->timestamps();

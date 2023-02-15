@@ -85,22 +85,27 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-8">
+                    <div class="col-12">
                         <div class="icheck-primary">
                             <input type="checkbox" id="remember">
                             <label for="remember">Remember Me</label>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-4">
-                        <button type="submit" class="btn btn-block bg-gradient-primary " ">Login</button>
+                <br>
+
+                <div class="row">
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-block bg-gradient-primary">Login</button>
                     </div>
-                    <div class="col-4">
-                        <a href="{{route('front.register')}}"><button type="button" class="btn btn-outline-success">Register</button></a>
+                    <div class="col-6">
+                        <a href="{{route('front.register')}}"><button type="button" class="btn btn-block btn-success">Register</button></a>
                     </div>
 
                 </div>
             </form>
+            <br>
 
             <p class="mb-1">
                 <a href="{{ route('password.request') }}">I forgot my password</a>

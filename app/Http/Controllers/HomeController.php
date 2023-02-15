@@ -24,19 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $departments = [];
 
-        $suppliers = [];
-
-        $materials = [];
-
-        $kanbans = [];
-
-        return view('home', [
-            'departments' => $departments,
-            'suppliers' => $suppliers,
-            'materials' => $materials,
-            'kanbans' => $kanbans
-        ]);
+        return redirect()->route('manager.index');
+       
     }
 }
