@@ -45,11 +45,11 @@
 
     <!-- /.login-box-body -->
     <div class="card">
-        <div class="card-body login-card-body bg-dark " style="border-radius: 1rem;>
-            <div class="container py-5 h-100">
+        <div class="card-body login-card-body bg-navy rounded shadow-lg  " style="border-radius: 1rem">
+            <div class="container py-10 h-100">
                 
             
-            <p class="login-box-msg text-white-50 mb-3">Customer login</p>
+            <p class="login-box-msg text-white-50 mb-3">Customer Login</p>
 
             <form method="post" action="{{ url('/front/login') }}">
                 @csrf
@@ -59,7 +59,7 @@
                            name="email"
                            value="{{ old('email') }}"
                            placeholder="Email"
-                           class="form-control @error('email') is-invalid @enderror">
+                           class="form-control form-control-border bg-navy  @error('email') is-invalid @enderror ">
                     <div class="input-group-append">
                         <div class="input-group-text"><span class="fas fa-envelope"></span></div>
                     </div>
@@ -72,7 +72,7 @@
                     <input type="password"
                            name="password"
                            placeholder="Password"
-                           class="form-control @error('password') is-invalid @enderror">
+                           class="form-control form-control-border bg-navy @error('password') is-invalid @enderror">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>
@@ -93,10 +93,10 @@
                     </div>
 
                     <div class="col-4">
-                        <button type="submit" class="btn btn-primary  ">Login</button>
+                        <button type="submit" class="btn btn-block bg-gradient-primary " ">Login</button>
                     </div>
                     <div class="col-4">
-                        <a href="{{route('front.register')}}"><button type="button" class="btn btn-success">Register</button></a>
+                        <a href="{{route('front.register')}}"><button type="button" class="btn btn-outline-success">Register</button></a>
                     </div>
 
                 </div>

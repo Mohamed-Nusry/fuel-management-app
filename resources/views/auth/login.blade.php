@@ -45,8 +45,8 @@
 
     <!-- /.login-box-body -->
     <div class="card">
-        <div class="card-body login-card-body bg-dark " style="border-radius: 1rem;>
-            <div class="container py-5 h-100">
+        <div class="card-body login-card-body bg-navy rounded shadow-lg" >
+            <div class="container py-3 h-80">
                 
             
             <p class="login-box-msg text-white-50 mb-3">Admin Login</p>
@@ -59,7 +59,7 @@
                            name="email"
                            value="{{ old('email') }}"
                            placeholder="Email"
-                           class="form-control @error('email') is-invalid @enderror">
+                           class="form-control bg-navy @error('email') is-invalid @enderror">
                     <div class="input-group-append">
                         <div class="input-group-text"><span class="fas fa-envelope"></span></div>
                     </div>
@@ -72,7 +72,7 @@
                     <input type="password"
                            name="password"
                            placeholder="Password"
-                           class="form-control @error('password') is-invalid @enderror">
+                           class="form-control bg-navy @error('password') is-invalid @enderror">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>
