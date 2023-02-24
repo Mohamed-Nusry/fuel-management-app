@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\ScheduleDistribution;
 use App\Models\User;
+use App\Models\VehicleRegistration;
 use App\Services\ScheduleService;
 use App\Services\UserService;
+use App\Services\VehicleRegistrationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -16,7 +18,8 @@ class ReportController extends Controller
 {
     public function __construct(
         private UserService $userService,
-        private ScheduleService $scheduleService
+        private ScheduleService $scheduleService,
+        private VehicleRegistrationService $vehicleRegistration
     ){}
 
     public function customerreport(Request $request){
@@ -27,6 +30,16 @@ class ReportController extends Controller
 
 
         return view('pages/customerreports/index');
+    }
+
+    public function vehiclereport(Request $request){
+
+        if($request->ajax()) {
+            return $this->vehicleRegistration->get($request->all());
+        }
+
+
+        return view('pages/vehiclereports/index');
     }
 
     
@@ -126,6 +139,49 @@ class ReportController extends Controller
         $pdf = PDF::loadView('pdf/fueldistreport', $data);
      
         return $pdf->download('FuelDistributionReport.pdf');
+
+
+        
+    }
+
+    public function vehiclereportPDF(Request $request){
+
+        $from_date = null;
+        $to_date = null;
+
+        if($request->from != null){
+            $from_date = $request->from;
+        }
+        if($request->to != null){
+            $to_date = $request->to;
+        }
+
+
+        if($from_date != null && $to_date != null){
+            $vehicles = VehicleRegistration::whereBetween('created_at', [$from_date, $to_date])->with('customer')->with('vehicle')->get();
+        }else{
+            if($from_date != null && $to_date == null){
+                $vehicles = VehicleRegistration::whereDate('created_at', '>=', $from_date)->with('customer')->with('vehicle')->get();
+            }else{
+                if($to_date != null && $from_date == null){
+                    $vehicles = VehicleRegistration::whereDate('created_at', '<=', $to_date)->with('customer')->with('vehicle')->get();
+                }else{
+                    $vehicles = VehicleRegistration::with('customer')->with('vehicle')->get();
+                }
+            }
+        }
+
+  
+        $data = [
+            'title' => 'Vehicle Report',
+            'from_date' => $from_date,
+            'to_date' => $to_date,
+            'vehicles' => $vehicles
+        ]; 
+            
+        $pdf = PDF::loadView('pdf/vehiclereport', $data);
+     
+        return $pdf->download('VehicleReport.pdf');
 
 
         

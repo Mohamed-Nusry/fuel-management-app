@@ -145,7 +145,7 @@
     </ul>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('customerreport.index') }}" class="nav-link {{ request()->is('*report/customer') ? 'sub-active' : '' }}">
+            <a href="{{ route('vehiclereport.index') }}" class="nav-link {{ request()->is('*report/vehicle') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
                 <p>Vehicle Report</p>
             </a>

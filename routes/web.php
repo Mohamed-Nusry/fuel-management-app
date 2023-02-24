@@ -141,6 +141,10 @@ Route::prefix('report')->group(function () {
         Route::get('/', [ReportController::class, 'customerreport'])->name('customerreport.index');
         Route::post('/pdf', [ReportController::class, 'customerreportPDF'])->name('customerreport.pdf');
     });
+    Route::prefix('vehicle')->group(function () {
+        Route::get('/', [ReportController::class, 'vehiclereport'])->name('vehiclereport.index');
+        Route::post('/pdf', [ReportController::class, 'vehiclereportPDF'])->name('vehiclereport.pdf');
+    });
     Route::prefix('fueldist')->group(function () {
         Route::get('/', [ReportController::class, 'fueldistreport'])->name('fueldistreport.index');
         Route::post('/pdf', [ReportController::class, 'fueldistreportPDF'])->name('fueldistreport.pdf');
