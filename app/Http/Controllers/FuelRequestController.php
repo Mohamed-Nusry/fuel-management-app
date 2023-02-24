@@ -24,10 +24,18 @@ class FuelRequestController extends Controller
     ){}
 
     public function index(Request $request){
-       
-        if($request->ajax()) {
-            return $this->fuelrequestService->get($request->all());
+
+        if(Auth::user()->user_type == 2){
+            if($request->ajax()) {
+                return $this->fuelrequestService->getForManager();
+            }
+        }else{
+            if($request->ajax()) {
+                return $this->fuelrequestService->get($request->all());
+            }
         }
+       
+      
 
         return view('pages/fuelrequests/index');
     }

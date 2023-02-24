@@ -8,7 +8,7 @@
     <div class="container-fluid">
         
         @if(Auth::user()->user_type != null)
-            @if(Auth::user()->user_type == 1 || Auth::user()->user_type == 2)
+            @if(Auth::user()->user_type == 1)
                 <button class="btn btn-primary mt-2 btn-create" style="float:right">Add New Schedule</button>
             @else
                 <i class="fas fa-question-circle mt-3 btn-help" style="float:right;  cursor:pointer;"></i>
@@ -112,7 +112,7 @@
                     <div class="modal-body">
 
                         <p>If the button is disabled, that means you have no access to perform this operation. Some operations are restricted
-                            to suitable roles. If you have any issues please contact Lockhood system admin.
+                            to suitable roles. If you have any issues please contact FuelIn system admin.
                         </p>
 
                        

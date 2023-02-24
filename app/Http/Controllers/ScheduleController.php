@@ -20,9 +20,16 @@ class ScheduleController extends Controller
 
     public function index(Request $request){
        
-        if($request->ajax()) {
-            return $this->scheduleService->get($request->all());
+        if(Auth::user()->user_type == 2){
+            if($request->ajax()) {
+                return $this->scheduleService->getForManager();
+            }
+        }else{
+            if($request->ajax()) {
+                return $this->scheduleService->get($request->all());
+            }
         }
+       
 
         //Get Fuel Stations
         $all_fuel_stations = [];

@@ -89,7 +89,7 @@
                     <div class="modal-body">
 
                         <p>If the button is disabled, that means you have no access to perform this operation. Some operations are restricted
-                            to suitable roles. If you have any issues please contact Lockhood system admin.
+                            to suitable roles. If you have any issues please contact FuelIn system admin.
                         </p>
 
                        

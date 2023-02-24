@@ -21,10 +21,18 @@ class FuelTokenController extends Controller
     ){}
 
     public function index(Request $request){
-       
-        if($request->ajax()) {
-            return $this->fueltokenService->get($request->all());
+
+        if(Auth::user()->user_type == 2){
+            if($request->ajax()) {
+                $fuel_req_ids = FuelRequest::where('fuel_station_id', Auth::user()->fuel_station_id)->pluck('id')->toArray();
+                return $this->fueltokenService->getForManager($fuel_req_ids);
+            }
+        }else{
+            if($request->ajax()) {
+                return $this->fueltokenService->get($request->all());
+            }
         }
+       
 
         return view('pages/fueltokens/index');
     }

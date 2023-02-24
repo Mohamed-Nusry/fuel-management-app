@@ -45,8 +45,14 @@ class ReportController extends Controller
     
     public function fueldistreport(Request $request){
 
-        if($request->ajax()) {
-            return $this->scheduleService->get($request->all());
+        if(Auth::user()->user_type == 2){
+            if($request->ajax()) {
+                return $this->scheduleService->getForManager();
+            }
+        }else{
+            if($request->ajax()) {
+                return $this->scheduleService->get($request->all());
+            }
         }
 
         $total_income = 0;
@@ -114,19 +120,38 @@ class ReportController extends Controller
         }
 
 
-        if($from_date != null && $to_date != null){
-            $fueldists = ScheduleDistribution::whereBetween('created_at', [$from_date, $to_date])->with('fuelStation')->get();
-        }else{
-            if($from_date != null && $to_date == null){
-                $fueldists = ScheduleDistribution::whereDate('created_at', '>=', $from_date)->with('fuelStation')->get();
+        if(Auth::user()->user_type == 2){
+
+            if($from_date != null && $to_date != null){
+                $fueldists = ScheduleDistribution::where('fuel_station_id', Auth::user()->fuel_station_id)->whereBetween('created_at', [$from_date, $to_date])->with('fuelStation')->get();
             }else{
-                if($to_date != null && $from_date == null){
-                    $fueldists = ScheduleDistribution::whereDate('created_at', '<=', $to_date)->with('fuelStation')->get();
+                if($from_date != null && $to_date == null){
+                    $fueldists = ScheduleDistribution::where('fuel_station_id', Auth::user()->fuel_station_id)->whereDate('created_at', '>=', $from_date)->with('fuelStation')->get();
                 }else{
-                    $fueldists = ScheduleDistribution::with('fuelStation')->get();
+                    if($to_date != null && $from_date == null){
+                        $fueldists = ScheduleDistribution::where('fuel_station_id', Auth::user()->fuel_station_id)->whereDate('created_at', '<=', $to_date)->with('fuelStation')->get();
+                    }else{
+                        $fueldists = ScheduleDistribution::where('fuel_station_id', Auth::user()->fuel_station_id)->with('fuelStation')->get();
+                    }
+                }
+            }
+
+        }else{
+            if($from_date != null && $to_date != null){
+                $fueldists = ScheduleDistribution::whereBetween('created_at', [$from_date, $to_date])->with('fuelStation')->get();
+            }else{
+                if($from_date != null && $to_date == null){
+                    $fueldists = ScheduleDistribution::whereDate('created_at', '>=', $from_date)->with('fuelStation')->get();
+                }else{
+                    if($to_date != null && $from_date == null){
+                        $fueldists = ScheduleDistribution::whereDate('created_at', '<=', $to_date)->with('fuelStation')->get();
+                    }else{
+                        $fueldists = ScheduleDistribution::with('fuelStation')->get();
+                    }
                 }
             }
         }
+       
 
   
         $data = [
