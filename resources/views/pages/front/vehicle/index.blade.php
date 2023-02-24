@@ -104,7 +104,7 @@
                                 @enderror
                             </div>
             
-                            <p>After clicking request, fuel station will review your request and update you. And note that you have to wait 3 hours from your expected date and time to request again if not accepted.</p>
+                            <p>After clicking request, fuel station will review your request and update you. And note that you have to wait 3 hours from your expected date and time to request again.</p>
                         
                             <div class="row">
 
@@ -334,21 +334,20 @@
              
                 var requestedQuota = $('#requested_quota').val();
 
-                // console.log(remainingQuota);
-               
+                var isAllowed = false;
 
                 if(remainingQuota && requestedQuota){
                     if(requestedQuota > remainingQuota){
                         swalError('', 'Cannot request quota more than remaining amount');
                     }else{
 
-                        //Create
-                        const formData = new FormData(this);
-                        formData.append('_method', 'POST');
-                        formData.append('_token', '{{ csrf_token() }}');
+                        //Already req check
+                        const checkData = new FormData(this);
+                        checkData.append('_method', 'POST');
+                        checkData.append('_token', '{{ csrf_token() }}');
                         $.ajax({
-                            url: '{{ route('fuelrequest.create') }}',
-                            data: formData,
+                            url: '{{ route('fuelrequest.check') }}',
+                            data: checkData,
                             type:'POST',
                             dataType: 'json',
                             contentType: false,
@@ -362,11 +361,35 @@
                                 $('.btn-save').text('Successfully Created');
                             },
                             success: function (data) {
-                                if(data.status == 200) {  
-                                    tableFuelRequest();
-                                    tableFuelToken();
-                                    swalSuccess('', data.nessage);
-                                    //window.location.href = "/";
+                                if(data.status == 200) { 
+                                    
+                                    $.ajax({
+                                        url: '{{ route('fuelrequest.create') }}',
+                                        data: checkData,
+                                        type:'POST',
+                                        dataType: 'json',
+                                        contentType: false,
+                                        processData: false,
+                                        beforeSend: function () {
+                                            $('.btn-save').attr("disabled", true);
+                                            $('.btn-save').text('Please wait......');
+                                        },
+                                        complete: function () {
+                                            $('.btn-save').attr("disabled", false);
+                                            $('.btn-save').text('Successfully Created');
+                                        },
+                                        success: function (data) {
+                                            if(data.status == 200) {  
+                                                tableFuelRequest();
+                                                tableFuelToken();
+                                                swalSuccess('', data.nessage);
+                                                //window.location.href = "/";
+                                            }
+                                        }
+                                    });
+                                  
+                                }else{
+                                    swalError('', 'You have already requested fuel. Please wait for 3 hours before request again');
                                 }
                             }
                         });

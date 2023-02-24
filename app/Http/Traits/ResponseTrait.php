@@ -21,4 +21,11 @@ trait ResponseTrait {
             "message"   => $e->getMessage(),
         ], $code);
     }
+
+    protected function sendCustomError(String $e, $code = Response::HTTP_INTERNAL_SERVER_ERROR){
+        return response()->json([
+            "status"    => $code,
+            "message"   => $e,
+        ], $code);
+    }
 }

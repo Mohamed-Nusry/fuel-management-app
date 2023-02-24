@@ -111,6 +111,7 @@ Route::prefix('fuelrequest')->group(function () {
     Route::get('/', [FuelRequestController::class, 'index'])->name('fuelrequest.index');
     Route::get('/customer', [FuelRequestController::class, 'byCustomer'])->name('fuelrequest.customer');
     Route::post('create', [FuelRequestController::class, 'create'])->name('fuelrequest.create');
+    Route::post('check', [FuelRequestController::class, 'check'])->name('fuelrequest.check');
     Route::post('edit', [FuelRequestController::class, 'edit'])->name('fuelrequest.edit');
     Route::put('update/{id}', [FuelRequestController::class, 'update'])->name('fuelrequest.update');
     Route::delete('delete/{id}', [FuelRequestController::class, 'delete'])->name('fuelrequest.delete');

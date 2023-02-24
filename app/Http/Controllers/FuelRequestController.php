@@ -90,6 +90,36 @@ class FuelRequestController extends Controller
         }
     }
 
+    public function check(FuelRequestRequest $request){
+        try {
+
+            $check_already_req_count = FuelRequest::where('customer_id', Auth::user()->id)->where('vehicle_registration_id', $request->vehicle_registration_id)->count();
+            if($check_already_req_count > 0){
+                $check_already_req = FuelRequest::where('customer_id', Auth::user()->id)->where('vehicle_registration_id', $request->vehicle_registration_id)->get();
+
+                foreach ($check_already_req as $key => $already_req) {
+                    if($already_req->status != 3 && $already_req->status != 6 && $already_req->status != 7){
+                        return $this->sendCustomError("You have already requested fuel. Please wait for 3 hours before request again");
+                    }
+                }
+
+                return $this->sendSuccess([
+                    'message'   => 'Able to request',
+                    'data'      => []
+                ]);
+            }
+       
+
+            return $this->sendSuccess([
+                'message'   => 'Able to request',
+                'data'      => []
+            ]);
+           
+        } catch (\Exception $e) {
+            return $this->sendError($e);
+        }
+    }
+
     public function update(FuelRequestUpdateRequest $request, $id){
         try {
 
