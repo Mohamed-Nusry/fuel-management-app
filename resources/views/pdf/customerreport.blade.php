@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Income Report - Lockhood</title>
+    <title>Customer Report - FuelIn</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
@@ -23,31 +23,25 @@
         @endif
     @endif
 
-    <p style="font-weight:bold">Total Income - LKR {{$total_income ?? 'N/A'}}</p>
-
   
   
     <table class="table table-bordered">
         <tr>
-            <th>Order No</th>
-            <th>Customer Name</th>
-            <th>Address</th>
-            <th>Mobile</th>
-            <th>Amount (LKR)</th>
-            <th>Discount (LKR)</th>
-            <th>Total (LKR)</th>
+            <th>No</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>District</th>
             <th>Created On</th>
         </tr>
-        @foreach($orders as $order)
+        @foreach($customers as $customer)
         <tr>
-            <td>{{ $order->order_no }}</td>
-            <td>{{ $order->customer_name }}</td>
-            <td>{{ $order->address }}</td>
-            <td>{{ $order->mobile }}</td>
-            <td>{{ $order->amount }}</td>
-            <td>{{ $order->discount }}</td>
-            <td>{{ $order->total }}</td>
-            <td>{{ $order->created_at }}</td>
+            <td>{{ $customer->id }}</td>
+            <td>{{ $customer->first_name }}</td>
+            <td>{{ $customer->last_name }}</td>
+            <td>{{ $customer->email }}</td>
+            <td>{{ ($customer->district && $customer->district != null) ? $customer->district->name : 'N/A'  }}</td>
+            <td>{{ $customer->created_at }}</td>
         </tr>
         @endforeach
     </table>

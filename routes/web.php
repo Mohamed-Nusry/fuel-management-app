@@ -13,6 +13,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\FuelRequestController;
 use App\Http\Controllers\FuelTokenController;
 use App\Http\Controllers\Front\FrontHomeController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -133,6 +134,17 @@ Route::prefix('payment')->group(function () {
     Route::post('edit', [PaymentController::class, 'edit'])->name('payment.edit');
     Route::put('update/{id}', [PaymentController::class, 'update'])->name('payment.update');
     Route::delete('delete/{id}', [PaymentController::class, 'delete'])->name('payment.delete');
+});
+
+Route::prefix('report')->group(function () {
+    Route::prefix('customer')->group(function () {
+        Route::get('/', [ReportController::class, 'customerreport'])->name('customerreport.index');
+        Route::post('/pdf', [ReportController::class, 'customerreportPDF'])->name('customerreport.pdf');
+    });
+    Route::prefix('fueldist')->group(function () {
+        Route::get('/', [ReportController::class, 'fueldistreport'])->name('fueldistreport.index');
+        Route::post('/pdf', [ReportController::class, 'fueldistreportPDF'])->name('fueldistreport.pdf');
+    });
 });
 
 // Route::prefix('district')->group(function () {

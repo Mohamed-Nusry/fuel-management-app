@@ -135,20 +135,28 @@
             <i class="right fas fa-angle-left"></i>
         </p>
     </a>
-    {{-- <ul class="nav nav-treeview">
+    <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('workreport.index') }}" class="nav-link {{ request()->is('*report/work') ? 'sub-active' : '' }}">
+            <a href="{{ route('customerreport.index') }}" class="nav-link {{ request()->is('*report/customer') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
-                <p>Work Report</p>
+                <p>Customer Report</p>
             </a>
         </li>
     </ul>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('incomereport.index') }}" class="nav-link {{ request()->is('*report/income') ? 'sub-active' : '' }}">
+            <a href="{{ route('customerreport.index') }}" class="nav-link {{ request()->is('*report/customer') ? 'sub-active' : '' }}">
                 &nbsp;&nbsp;&nbsp;
-                <p>Income Report</p>
+                <p>Vehicle Report</p>
             </a>
         </li>
-    </ul> --}}
+    </ul>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('fueldistreport.index') }}" class="nav-link {{ request()->is('*report/fueldist') ? 'sub-active' : '' }}">
+                &nbsp;&nbsp;&nbsp;
+                <p>Fuel Distribution Report</p>
+            </a>
+        </li>
+    </ul>
 </li>
